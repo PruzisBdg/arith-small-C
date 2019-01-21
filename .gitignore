@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#coverage
+*.gcda
+*.gcno
+# gcovr results (for now)
+gcovr*.html
+*.gcov
+
+# Code::Blocks layout and dependencies
+*.layout
+*.depend

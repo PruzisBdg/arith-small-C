@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="arith_x86_gcc" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/arith_x86_gcc" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/arith_x86_gcc" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Test">
+				<Option output="arith_x86_gcc" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add directory="../../../../unity/src" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="../private" />
+			<Add directory="../public" />
+			<Add directory="../GenericTypes" />
+		</Compiler>
+		<Unit filename="../../unity_tdd/tdd_common.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../../unity_tdd/tdd_common.h">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../../unity_tdd/tdd_common_build.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../../unity_tdd/tdd_common_pre_build.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../src/arith_integer_basic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/float_basic.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../src/integer_func.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../src/interp_integer.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../src/sorts_non_linear_filts.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="../unit_test/arith_common_build.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/arith_common_pre.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/arith_integer_basic/arith_integer_basic.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/arith_integer_basic/run-test-arith_integer_basic.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/arith_integer_basic/test-arith_integer_basic.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/integer_func/integer_func.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/integer_func/run-test-integer_func.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/integer_func/test-integer_func.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/interp_integer/interp_integer.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/interp_integer/run-test-interp_integer.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/interp_integer/test-interp_integer.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/sorts_non_linear_filts/run-test-sorts_non_linear_filts.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/sorts_non_linear_filts/sorts_non_linear_filts.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/sorts_non_linear_filts/test-sorts_non_linear_filts.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
