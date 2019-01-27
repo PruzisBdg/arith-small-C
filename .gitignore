@@ -63,7 +63,7 @@ gcovr*.html
 *.depend
 
 # Local MCU projects
-RenesasARM/*
-LPC8xx/*
-Arith.X/*
+RenesasARM
+LPC8xx
+Arith.X
 
