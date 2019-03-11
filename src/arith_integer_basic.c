@@ -21,6 +21,9 @@ PRIVATE S16 AmulBdivC_S16_Raw(S16 a, S16 b, S16 c)
 PUBLIC S16 ClipS32toS16(S32 n)
     { return (n > MAX_S16) ? MAX_S16 : (n < MIN_S16 ? MIN_S16 : n); }
 
+PUBLIC U16 ClipS32toU16(S32 n)
+    { return (n > MAX_U16) ? MAX_U16 : (n < 0 ? 0 : n); }
+
 PUBLIC U16 ClipU32toU16(U32 n)
     { return (n > MAX_U16) ? MAX_U16 : n; }
 
@@ -123,7 +126,7 @@ PUBLIC U32 AplusBU32(U32 a, U32 b)
 
 PUBLIC U32 U32plusS16(U32 a, S16 b)
 {
-	return 
+	return
 		b > 0
 			? AplusBU32(a, b)
 			: AminusBU32(a, -b);
@@ -131,7 +134,7 @@ PUBLIC U32 U32plusS16(U32 a, S16 b)
 
 PUBLIC U32 U32plusS32_toU32(U32 a, S32 b)
 {
-	return 
+	return
 		b > 0
 			? AplusBU32(a, b)
 			: AminusBU32(a, -b);
@@ -176,13 +179,13 @@ PUBLIC U16 AmulBdivC_U16(U16 a, U16 b, U16 c)
 }
 
 PUBLIC U16 AmulBdivC_U16_rnd(U16 a, U16 b, U16 c)
-{ 
-    return         
+{
+    return
         c == 0
             ? (a == 0 || b ==0
                 ? 0
                 : MAX_U16)
-            : ClipU32toU16( ((a * (U32)b) + (c/2)) / c); 
+            : ClipU32toU16( ((a * (U32)b) + (c/2)) / c);
 }
 
 
@@ -215,13 +218,13 @@ PUBLIC U8 AmulBdivC_U8(U8 a, U8 b, U8 c)
 }
 
 PUBLIC U8 AmulBdivC_U8_rnd(U8 a, U8 b, U8 c)
-{ 
-    return 
+{
+    return
         a == 0 || b == 0
             ? 0
             : ( c == 0
                 ? MAX_U8
-                : ClipU16toU8( ((a * (U16)b) + (c/2)) / c)); 
+                : ClipU16toU8( ((a * (U16)b) + (c/2)) / c));
 }
 
 PUBLIC S16 AmulBdivC_S16_S8_S8(S16 a, S8 b, S8 c)
@@ -271,8 +274,8 @@ PUBLIC U16 AbsDiffS16(S16 a, S16 b)
 PUBLIC U32 AbsDiffU32(U32 a, U32 b)
     { return a > b ? a - b : b - a; }
 
-PUBLIC S32 MinusS32(S32 n) 
-	{ return n == MIN_S32 ? MAX_S32 : -n; }		// Negative of the most negative signed int is not defined.		
+PUBLIC S32 MinusS32(S32 n)
+	{ return n == MIN_S32 ? MAX_S32 : -n; }		// Negative of the most negative signed int is not defined.
 
 PUBLIC U8 AminusBU8(U8 a, U8 b)
     { return a > b ? a - b : 0; }
