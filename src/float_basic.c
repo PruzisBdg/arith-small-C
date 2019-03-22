@@ -29,6 +29,18 @@ PUBLIC S32 ClipFloatToLong(float f)
       return (S32)f;
 }
 
+/* ---------------------------------- ClipFloatToU32 ------------------------------- */
+
+PUBLIC U32 ClipFloatToU32(float f)
+{
+   if( f <= (float)0.0 )
+      return 0;
+   else if( f >= (float)MAX_U32 )
+      return MAX_U32;
+   else
+      return (U32)f;
+}
+
 /* ---------------------------------- ClipFloatToInt ------------------------------- */
 
 PUBLIC S16 ClipFloatToInt(float f)
