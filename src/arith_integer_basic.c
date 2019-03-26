@@ -36,6 +36,9 @@ PUBLIC U8 ClipU16toU8(U16 n)
 PUBLIC S32 ClipU32toS32(U32 n)
 	{ return n > MAX_S32 ? MAX_S32 : n; }
 
+PUBLIC U32 ClipU64toU32(U64 n)
+	{ return n > MAX_U32 ? MAX_U32 : n; }
+
 PUBLIC S16 ClipS16(S16 n, S16 min, S16 max)
 {
     return
