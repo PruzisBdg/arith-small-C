@@ -21,7 +21,6 @@ PUBLIC U8   ClipU16toU8(U16 n);
 
 PUBLIC S8   MinS8(S8 a, S8 b);
 PUBLIC S8   MaxS8(S8 a, S8 b);
-PUBLIC S8   MaxS8(S8 a, S8 b);
 PUBLIC S16  MinS16(S16 a, S16 b);
 PUBLIC S16  MaxS16(S16 a, S16 b);
 PUBLIC S8   ClipS8(S8 n, S8 min, S8 max);
@@ -61,9 +60,7 @@ PUBLIC U16  AminusBU16(U16 a, U16 b);
 PUBLIC U32  AminusBU32(U32 a, U32 b);
 PUBLIC S32  AminusBU32toS32(U32 a, U32 b);
 PUBLIC S16  AminusBS16(S16 a, S16 b);
-PUBLIC U32  AminusBU32(U32 a, U32 b);
 PUBLIC S16  AminusBU16ToS16(U16 a, U16 b);
-PUBLIC S32 AminusBU32toS32(U32 a, U32 b);
 #define _AminusB_unsigned(a,b)  (a > b ? a - b : 0)
 
 PUBLIC BIT DecrU8_NowZero(U8 * a);
@@ -81,7 +78,6 @@ PUBLIC U16  AmulBdivC_U16_rnd(U16 a, U16 b, U16 c);
 PUBLIC S16  AmulBdivC_S16_U8_U8(S16 a, U8 b, U8 c);
 PUBLIC U8   AmulBdivC_U8(U8 a, U8 b, U8 c);
 PUBLIC U8   AmulBdivC_U8_rnd(U8 a, U8 b, U8 c);
-PUBLIC S16  AmulBdivC_S16_S8_S8(S16 a, S8 b, S8 c);
 PUBLIC S16  AmulBdivC_S16_S8_S8(S16 a, S8 b, S8 c);
 
 PUBLIC U8   MixU8(U8 a, U8 b, U8 m);
