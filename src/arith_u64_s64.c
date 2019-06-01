@@ -1,0 +1,80 @@
+/* -----------------------------------------------------------------
+|
+|              Integer Arithmetic with inherent 64bit types
+|
+--------------------------------------------------------------------- */
+
+#include "GenericTypeDefs.h"
+#include "libs_support.h"
+#include "arith.h"
+
+// ------------------------------------------------------------------------------
+PUBLIC S64 AplusBS64(S64 a, S64 b)
+{
+    return
+        (a > 0 && b > 0 && (a+b) < 0)                   // Overflow?
+            ? MAX_S64
+            : ( (a < 0 && b < 0 && (a+b) > 0) ||        // Underflow?
+                (a == MIN_S64 && b == MIN_S64)          // Rollover twice so will miss test above.
+                ? MIN_S64
+                : a + b );
+}
+
+// ------------------------------------------------------------------------------
+PUBLIC S64 AminusBS64(S64 a, S64 b)
+{
+   return
+        a > b
+            ? (a-b < 0
+                ? MAX_S64
+                : a-b)
+            : (a-b > 0
+                ? MIN_S64
+                : a-b);
+}
+
+// ------------------------------------------------------------------------------
+PUBLIC U64 AplusBU64(U64 a, U64 b)
+{
+    U64 c = a + b;
+    return
+        c >= a && c >= b
+            ? c
+            : MAX_U64;
+}
+
+// ------------------------------------------------------------------------------
+PUBLIC U64 AminusBU64(U64 a, U64 b)
+{
+    return
+        a > b
+           ? a - b
+           : 0;
+}
+
+// ------------------------------------------------------------------------------
+PUBLIC U64 ClipU64(U64 n, U64 min, U64 max)
+{
+    return
+        min > max                                       // Limits are crossed?
+            ? ((min >> 1) + (max >> 1))                 // then return mean of limits
+            : (n > max ? max : (n < min ? min : n));    // else clip 'n' to limits.
+}
+
+// ------------------------------------------------------------------------------
+PUBLIC S64 ClipS64(S64 n, S64 min, S64 max)
+{
+    return
+        min > max                                       // Limits are crossed?
+            ? ((min >> 1) + (max >> 1))                 // then return mean of limits
+            : (n > max ? max : (n < min ? min : n));    // else clip 'n' to limits.
+}
+
+// ------------------------------------------------------------------------------
+PUBLIC U64 MaxU64(U64 a, U64 b) { return a > b ? a : b; }
+PUBLIC S64 MaxS64(S64 a, S64 b) { return a > b ? a : b; }
+PUBLIC U64 MinU64(U64 a, U64 b) { return a > b ? b : a; }
+PUBLIC S64 MinS64(S64 a, S64 b) { return a > b ? b : a; }
+
+// ---------------------------- eof -------------------------------------
+

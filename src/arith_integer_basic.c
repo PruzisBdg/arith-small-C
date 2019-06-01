@@ -63,6 +63,14 @@ PUBLIC U16 ClipU16(U16 n, U16 min, U16 max)
             : (n > max ? max : (n < min ? min : n));    // else clip 'n' to limits.
 }
 
+PUBLIC U32 ClipU32(U32 n, U32 min, U32 max)
+{
+    return
+        min > max                                       // Limits are crossed?
+            ? ((min >> 1) + (max >> 1))                 // then return mean of limits
+            : (n > max ? max : (n < min ? min : n));    // else clip 'n' to limits.
+}
+
 PUBLIC U8 ClipU8(U8 n, U8 min, U8 max)
 {
     return

@@ -58,6 +58,9 @@ dkms.conf
 gcovr*.html
 *.gcov
 
+# TDD test runners
+run-test-*
+
 # Code::Blocks layout and dependencies
 *.layout
 *.depend

@@ -25,6 +25,7 @@ typedef enum _BOOL { FALSE = 0, TRUE } BOOL;    /* Undefined size */
 typedef enum _BIT { CLEAR = 0, SET } BIT;
 
 typedef unsigned long long U64;
+typedef signed long long S64;
 
 #define _ToBool(n) ((n) == 0 ? FALSE : TRUE)
 
@@ -78,6 +79,12 @@ typedef char C8;
 #define HIGH_DWORD(n) ((U32)((n) >> 32))
 #define LOW_DWORD(n)  ((U32)((n) & 0xFFFFFFFF))
 
+//#define MAX_U64 9223372036854775807ULL
+#define MAX_U64 0xFFFFFFFFFFFFFFFFULL
+#define MIN_U64 0
+
+#define MAX_S64 0x7FFFFFFFFFFFFFFFLL
+#define MIN_S64 (-MAX_S64-1)
 
 /* 24-bit type only available on C18 */
 #if defined(__18CXX)
@@ -86,10 +93,7 @@ typedef unsigned short long UINT24;
 //typedef unsigned long int   UINT32;     /* other name for 32-bit integer */
 typedef unsigned long int U32;                     // Succinct.
 
-/* MPLAB C Compiler for PIC18 does not support 64-bit integers */
-#if !defined(__18CXX)
-__EXTENSION typedef unsigned long long  UINT64;
-#endif
+typedef unsigned long long  UINT64;
 
 
 #define RECORDS_IN(a)  (sizeof(a)/sizeof(a[0]))

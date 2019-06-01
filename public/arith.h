@@ -28,12 +28,20 @@ PUBLIC U8   ClipU8(U8 n, U8 min, U8 max);
 PUBLIC U16  ClipU16(U16 n, U16 min, U16 max);
 PUBLIC S16  ClipS16(S16 n, S16 min, S16 max);
 PUBLIC S32  ClipS32(S32 n, S32 min, S32 max);
+PUBLIC U32  ClipU32(U32 n, U32 min, U32 max);
+PUBLIC U64  ClipU64(U64 n, U64 min, U64 max);
+PUBLIC S64  ClipS64(S64 n, S64 min, S64 max);
+
 PUBLIC U8   MinU8(U8 a, U8 b);
 PUBLIC U8   MaxU8(U8 a, U8 b);
 PUBLIC U16  MinU16(U16 a, U16 b);
 PUBLIC U16  MaxU16(U16 a, U16 b);
 PUBLIC U32  MinU32(U32 a, U32 b);
 PUBLIC U32  MaxU32(U32 a, U32 b);
+PUBLIC S64  MinS64(S64 a, S64 b);
+PUBLIC S64  MaxS64(S64 a, S64 b);
+PUBLIC U64  MinU64(U64 a, U64 b);
+PUBLIC U64  MaxU64(U64 a, U64 b);
 
 PUBLIC BIT  Inside_U8(U8 a, U8 min, U8 max);
 PUBLIC BIT  Inside_U16(U16 a, U16 min, U16 max);
@@ -45,6 +53,8 @@ PUBLIC S16  AplusBS16(S16 a, S16 b);
 PUBLIC U32  AplusBU32(U32 a, U32 b);
 PUBLIC U16  AplusB_U16(U16 a, U16 b);
 PUBLIC S32  AplusBS32(S32 a, S32 b);
+PUBLIC S64  AplusBS64(S64 a, S64 b);
+PUBLIC U64  AplusBU64(U64 a, U64 b);
 PUBLIC U16  U16plusS16_toU16(U16 a, S16 b);
 PUBLIC U32  U32plusS16(U32 a, S16 b);
 PUBLIC U32  U32plusS32_toU32(U32 a, S32 b);
@@ -58,6 +68,8 @@ PUBLIC S32 MinusS32(S32 n);		// Safe unary minus
 PUBLIC U8   AminusBU8(U8 a, U8 b);
 PUBLIC U16  AminusBU16(U16 a, U16 b);
 PUBLIC U32  AminusBU32(U32 a, U32 b);
+PUBLIC S64  AminusBS64(S64 a, S64 b);
+PUBLIC U64  AminusBU64(U64 a, U64 b);
 PUBLIC S32  AminusBU32toS32(U32 a, U32 b);
 PUBLIC S16  AminusBS16(S16 a, S16 b);
 PUBLIC S16  AminusBU16ToS16(U16 a, U16 b);

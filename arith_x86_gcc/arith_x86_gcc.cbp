@@ -61,7 +61,11 @@
 		<Unit filename="../../unity_tdd/tdd_common_pre_build.mak">
 			<Option target="Test" />
 		</Unit>
+		<Unit filename="../public/arith.h" />
 		<Unit filename="../src/arith_integer_basic.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/arith_u64_s64.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/float_basic.c">
@@ -98,6 +102,13 @@
 			<Option target="Test" />
 		</Unit>
 		<Unit filename="../unit_test/arith_integer_basic/test-arith_integer_basic.c">
+			<Option compilerVar="CC" />
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/arith_u64_s64/arith_u64_s64.mak">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="../unit_test/arith_u64_s64/test-arith_u64_s64.c">
 			<Option compilerVar="CC" />
 			<Option target="Test" />
 		</Unit>
