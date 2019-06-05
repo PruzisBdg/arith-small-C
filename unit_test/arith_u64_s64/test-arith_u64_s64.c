@@ -240,4 +240,17 @@ void test_MinU64(void)
    TEST_ASSERT_TRUE( MAX_U64 == MinU64(MAX_U64, MAX_U64) );
 }
 
+/* ------------------------------------ test_ClipU64toU32 ------------------------------------- */
+
+void test_ClipU64toU32(void)
+{
+   TEST_ASSERT_TRUE( 0 == ClipU64toU32(0) );
+   TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32(MAX_U32+1) );
+   TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32(MAX_U32) );
+   TEST_ASSERT_TRUE( MAX_U32-1 == ClipU64toU32(MAX_U32-1) );
+   TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32(MAX_U64) );
+}
+
+
+
  // ----------------------------------------- eof --------------------------------------------

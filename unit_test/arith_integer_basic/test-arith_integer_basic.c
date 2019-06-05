@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "tdd_common.h"
+#include <limits.h>
 
 // =============================== Tests start here ==================================
 
@@ -20,7 +21,32 @@ void setUp(void) {
 void tearDown(void) {
 }
 
+/* ------------------------------------ test_Limits -------------------------------------
+
+   Check that our limit-defs match the (newer) GCC limits.h
+
+*/
+void test_Limits(void)
+{
+    TEST_ASSERT_TRUE( MAX_S32 == LONG_MAX );
+    TEST_ASSERT_TRUE( MIN_S32 == LONG_MIN );
+    TEST_ASSERT_TRUE( MAX_U32 == ULONG_MAX );
+    TEST_ASSERT_TRUE( MIN_U32 == 0 );
+
+    TEST_ASSERT_TRUE( MAX_S16 == SHRT_MAX );
+    TEST_ASSERT_TRUE( MIN_S16 == SHRT_MIN );
+    TEST_ASSERT_TRUE( MAX_U16 == USHRT_MAX );
+    TEST_ASSERT_TRUE( MIN_U16 == 0 );
+
+    TEST_ASSERT_TRUE( MAX_S8 == SCHAR_MAX );
+    TEST_ASSERT_TRUE( MIN_S8 == SCHAR_MIN );
+    TEST_ASSERT_TRUE( MAX_U8 == UCHAR_MAX );
+    TEST_ASSERT_TRUE( MIN_U8 == 0 );
+}
+
 /* ------------------------------------ test_ClipS32toS16 ------------------------------------- */
+
+
 
 typedef struct { S32 in; S16 returns; } S_ClipS32toS16Chk;
 
@@ -52,6 +78,18 @@ void test_ClipU32toU16(void)
     TEST_ASSERT_TRUE( ClipU32toU16((U32)MAX_U16+1) == MAX_U16 );
     TEST_ASSERT_TRUE( ClipU32toU16((U32)MAX_U16-1) == MAX_U16-1 );
     TEST_ASSERT_TRUE( ClipU32toU16(MAX_U32) == MAX_U16 );
+}
+
+/* ------------------------------------ test_ClipS32toU16 ------------------------------------- */
+
+void test_ClipS32toU16(void)
+{
+    TEST_ASSERT_TRUE( ClipS32toU16(0) == 0 );
+    TEST_ASSERT_TRUE( ClipS32toU16((S32)MAX_U16) == MAX_U16 );
+    TEST_ASSERT_TRUE( ClipS32toU16((S32)MAX_U16+1) == MAX_U16 );
+    TEST_ASSERT_TRUE( ClipS32toU16((S32)MAX_U16-1) == MAX_U16-1 );
+    TEST_ASSERT_TRUE( ClipS32toU16(MAX_S32) == MAX_U16 );
+    TEST_ASSERT_TRUE( ClipS32toU16(MIN_S32) == 0 );
 }
 
 /* ------------------------------------ test_ClipS16toU8 ------------------------------------- */
@@ -245,6 +283,43 @@ void test_ClipS32(void)
     TEST_ASSERT_TRUE( ClipS32(0,0,0) == 0 );
     TEST_ASSERT_TRUE( ClipS32(MAX_S32, 0, MAX_S32) == MAX_S32 );
     TEST_ASSERT_TRUE( ClipS32(MIN_S32, MIN_S32, 0) == MIN_S32 );
+}
+
+/* ------------------------------------ test_ClipU32 ------------------------------------- */
+
+void test_ClipU32(void)
+{
+    U8 c;
+    U32 n, l, u, ret, chk;
+
+    #define _GoodClip(n,l,u)            \
+        ((u) < (l))                     \
+            ? ((u >> 1) + (l >> 1) )    \
+            : ((n) < (l)                \
+                ? (l)                   \
+                : ((n) > (u)            \
+                    ? (u)               \
+                    : (n)))
+
+    for( c = 0; c < 20; c++ )
+    {
+        n = randU32(); l = randU32(), u = randU32();
+        ret =  ClipU32(n,l,u);
+        chk = _GoodClip(n,l,u);
+
+        if( ret != chk)
+        {
+            printf("ClipU32() failed n = %ld l = %ld u = %ld  expected %ld got %ld\r\n", n, l, u, chk, ret);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+
+    #undef _GoodClip
+
+    // Corner cases
+    TEST_ASSERT_TRUE( ClipU32(0,0,0) == 0 );
+    TEST_ASSERT_TRUE( ClipU32(MAX_U32, 0, MAX_U32) == MAX_U32 );
+    TEST_ASSERT_TRUE( ClipU32(MIN_U32, MIN_U32, 0) == MIN_U32 );
 }
 
 /* ------------------------------------ test_ClipS16 ------------------------------------- */
@@ -716,7 +791,7 @@ void test_AplusBU32(void)
 }
 
 /* ------------------------------------ test_AplusBS32 ------------------------------------- */
-  
+
 void test_AplusBS32(void)
 {
     U8 c;
@@ -734,7 +809,7 @@ void test_AplusBS32(void)
         a = randS32(); b = randS32();
         chk = a+b;
         res = AplusBS32(a,b);
-        
+
         BOOL over  = a >= 0 && b >= 0 && a+b < 0;       // overflow
         BOOL under = a <= 0 && b <= 0 && a+b > 0;       // underflow
 
@@ -747,7 +822,7 @@ void test_AplusBS32(void)
 }
 
 /* ------------------------------------ test_U32plusS16 ------------------------------------- */
-  
+
 void test_U32plusS16(void)
 {
     U8 c;
@@ -768,7 +843,7 @@ void test_U32plusS16(void)
         a = randU32(); b = randS16();
         chk = a+b;
         res = U32plusS16(a,b);
-        
+
         BOOL over  = a >= 0 && b >= 0 && a+b < 0;       // overflow
         BOOL under = b < 0 && (U32)(-b) > a;                     // underflow
 
@@ -781,7 +856,7 @@ void test_U32plusS16(void)
 }
 
 /* ------------------------------------ test_U32plusS32_toU32 ------------------------------------- */
-  
+
 void test_U32plusS32_toU32(void)
 {
     U8 c;
@@ -801,7 +876,7 @@ void test_U32plusS32_toU32(void)
         a = randU32(); b = randS32();
         chk = a+b;
         res = U32plusS32_toU32(a,b);
-        
+
         BOOL over  = a >= 0 && b >= 0 && a+b < 0;       // overflow
         BOOL under = b < 0 && (U32)(-b) > a;       // underflow
 
@@ -959,15 +1034,15 @@ void test_AminusBU32toS32(void)
     {
         a = randU32(); b = randU32();
         res = AminusBU32toS32(a,b);
-        
+
         // a - b, clipped to MAX_S32.  Don't rely on 64bit; check for overrange before subtracting.
         #define _aMinusb_Clip(a,b)                          \
             (((b) < MAX_U32-MAX_S32 && (a) > (b)+MAX_S32)   \
                         ? MAX_S32                           \
                         : ((a) - (b)))
-        
+
         chk = (a > b) ? _aMinusb_Clip(a,b) : -_aMinusb_Clip(b,a);
-        
+
         if( chk != res )
         {
             printf("AminusBU32toS32() failed: %lu %lu -> %ld excpected %ld\r\n", a, b, res, chk);
@@ -1071,7 +1146,7 @@ void test_AbsDiffU32(void)
 void test_MinusS32(void)
 {
     TEST_ASSERT_TRUE(MAX_S32 + MIN_S32 == -1);
-    
+
     TEST_ASSERT_TRUE( MinusS32(MAX_S32)  == -MAX_S32);
     TEST_ASSERT_TRUE( MinusS32(MIN_S32)   == MAX_S32);
     TEST_ASSERT_TRUE( MinusS32(MIN_S32+1) == MAX_S32);
@@ -1313,7 +1388,7 @@ void test_AmulBdivC_S16(void)
     // Check 100 random numbers
     for( c = 0; c < 100; c++)
     {
-        a = randS16(); b = randS16(); 
+        a = randS16(); b = randS16();
         div = randS16(); if(div == 0) {div = 1;}
         chk = (S32)a * b / div;
 
@@ -1607,6 +1682,78 @@ void test_AmulBdivC_S16_S8_S8(void)
     }
 }
 
+/* -------------------------------- test_DeadbandS16 ------------------------------------ */
+
+void test_DeadbandS16(void)
+{
+   typedef struct {S16 in, lo, hi, out; } S_Tst;
+
+   S_Tst const tsts[] = {
+      // Zeros in -> zero out.
+      {.in = 0,   .lo = 0,    .hi = 0,    .out = 0},
+
+      // Deadband all the way up.
+      {.in = 22,   .lo = MIN_S16,    .hi = MIN_S16,    .out =22},
+      {.in = MIN_S16,   .lo = MIN_S16,    .hi = MIN_S16,    .out =MIN_S16},
+      {.in = MIN_S16+1,   .lo = MIN_S16,    .hi = MIN_S16,    .out =MIN_S16+1},
+
+      {.in = -18,   .lo = MAX_S16,    .hi = MAX_S16,    .out = -18},
+      {.in = MAX_S16,   .lo = MAX_S16,    .hi = MAX_S16,    .out = MAX_S16},
+      {.in = MAX_S16-1,   .lo = MAX_S16,    .hi = MAX_S16,    .out = MAX_S16-1},
+
+      // Upside-down limits return 'in' unchanged.
+      {.in = MAX_S16, .lo = 10,  .hi = -10,    .out = MAX_S16},
+      {.in = MIN_S16, .lo = 10,  .hi = -10,    .out = MIN_S16},
+      {.in = 0, .lo = 10,  .hi = -10,    .out = 0},
+
+      // If 'in' at midpoint of dead-band then return 'hi.
+      {.in = 0,   .lo = -10,  .hi = 10,    .out = 10},
+
+      {.in = -11, .lo = -10,  .hi = 10,    .out = -11},
+      {.in = -10, .lo = -10,  .hi = 10,    .out = -10},
+      {.in = -9 , .lo = -10,  .hi = 10,    .out = -10},
+      {.in = -8 , .lo = -10,  .hi = 10,    .out = -10},
+      {.in = -2 , .lo = -10,  .hi = 10,    .out = -10},
+      {.in = -1 , .lo = -10,  .hi = 10,    .out = -10},
+
+      // If 'in' at midpoint of dead-band then return 'hi.
+      {.in = 0,   .lo = -10,  .hi = 10,    .out = 10},
+
+      {.in =  1,  .lo = -10,  .hi = 10,    .out = 10},
+      {.in =  2,  .lo = -10,  .hi = 10,    .out = 10},
+      {.in =  3,  .lo = -10,  .hi = 10,    .out = 10},
+      {.in =  8,  .lo = -10,  .hi = 10,    .out = 10},
+      {.in =  9,  .lo = -10,  .hi = 10,    .out = 10},
+      {.in =  10, .lo = -10,  .hi = 10,    .out = 10},
+      {.in =  11, .lo = -10,  .hi = 10,    .out = 11},
+
+      // Deadbands at top and bottom of S16 range. i.e 'lo', 'hi' do not have to be oppositie sign.
+
+      {.in = MAX_S16,     .lo = MAX_S16-3,    .hi = MAX_S16-1,    .out = MAX_S16},
+      {.in = MAX_S16-1,   .lo = MAX_S16-3,    .hi = MAX_S16-1,    .out = MAX_S16-1},
+      {.in = MAX_S16-2,   .lo = MAX_S16-3,    .hi = MAX_S16-1,    .out = MAX_S16-1},
+      {.in = MAX_S16-3,   .lo = MAX_S16-3,    .hi = MAX_S16-1,    .out = MAX_S16-3},
+      {.in = MAX_S16-4,   .lo = MAX_S16-3,    .hi = MAX_S16-1,    .out = MAX_S16-4},
+
+
+      {.in = MIN_S16,       .lo = MIN_S16+1,    .hi = MIN_S16+3,    .out = MIN_S16},
+      {.in = MIN_S16+1,     .lo = MIN_S16+1,    .hi = MIN_S16+3,  .out = MIN_S16+1},
+      {.in = MIN_S16+2,     .lo = MIN_S16+1,    .hi = MIN_S16+3,  .out = MIN_S16+3},
+      {.in = MIN_S16+3,     .lo = MIN_S16+1,    .hi = MIN_S16+3,  .out = MIN_S16+3},
+      {.in = MIN_S16+4,     .lo = MIN_S16+1,    .hi = MIN_S16+3,  .out = MIN_S16+4},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      S16 ret = DeadbandS16(t->in, t->lo, t->hi);
+
+      C8 b0[100];
+      sprintf(b0, "DeabandS16() tst #%d failed:  in %d, [lo %d, hi %d] -> %d; expected %d", i, t->in, t->lo, t->hi, ret, t->out);
+      TEST_ASSERT_TRUE_MESSAGE(t->out == ret, b0);
+   }
+}
 
 /* ------------------------------- test_Median3_U8 ------------------------------------- */
 
@@ -1689,6 +1836,55 @@ void test_Span3_U8(void)
 }
 
 
+/* ------------------------------- test_Span4_U8 ------------------------------------- */
+
+typedef struct {U8 a, b, c, d, res; } S_Span4_U8_Chk;
+
+PRIVATE S_Span4_U8_Chk const span4_U8_Chks[] = {
+    {1,2,3,4, 3},
+    {1,2,4,3, 3},
+    {1,4,2,3, 3},
+    {4,1,2,3, 3},
+    {3,1,2,4, 3},
+    {3,1,4,2, 3},
+    {3,4,1,2, 3},
+    {4,3,1,2, 3},
+    {2,3,1,4, 3},
+    {2,3,4,1, 3},
+    {2,4,3,1, 3},
+    {4,2,3,1, 3},
+
+    {1,2,3,4, 3},
+    {1,4,3,2, 3},
+    {3,4,1,2, 3},
+    {3,2,1,4, 3},
+
+    {3,3,3,3, 0},
+
+    {0,0,0,0, 0},
+
+    {MAX_U8,MAX_U8,MAX_U8,MAX_U8, 0},
+    {MAX_U8,0,0,0, MAX_U8},
+};
+
+void test_Span4_U8(void)
+{
+    U8 i, res;
+
+    for( i = 0; i < RECORDS_IN(span4_U8_Chks); i++ )
+    {
+        res = Span4_U8(span4_U8_Chks[i].a, span4_U8_Chks[i].b, span4_U8_Chks[i].c, span4_U8_Chks[i].d );
+
+        if( res != span4_U8_Chks[i].res )
+        {
+            printf("Span4_U8() failed: %u %u %u %u -> expected %u got %u\r\n",
+                span4_U8_Chks[i].a, span4_U8_Chks[i].b, span4_U8_Chks[i].c, span4_U8_Chks[i].d, span4_U8_Chks[i].res, res);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+}
+
+
 /* -------------------------------- test_SqU8 --------------------------------------- */
 
 void test_SqU8(void)
@@ -1708,7 +1904,7 @@ void test_SqU16(void)
     U16 n;
 
     TEST_ASSERT_TRUE(SqU16(0) == 0);
-    TEST_ASSERT_TRUE(SqU16(MAX_U16) == MAX_U16 * (U32)MAX_U16);    
+    TEST_ASSERT_TRUE(SqU16(MAX_U16) == MAX_U16 * (U32)MAX_U16);
     n = randU16();
     TEST_ASSERT_TRUE(SqU16(n) == n * (U32)n);
 }
@@ -1720,8 +1916,8 @@ void test_SqS16(void)
     S16 n;
 
     TEST_ASSERT_TRUE(SqS16(0) == 0);
-    TEST_ASSERT_TRUE(SqS16(MAX_S16) == MAX_S16 * (S32)MAX_S16);    
-    TEST_ASSERT_TRUE(SqS16(MIN_S16) == MIN_S16 * (S32)MIN_S16);    
+    TEST_ASSERT_TRUE(SqS16(MAX_S16) == MAX_S16 * (S32)MAX_S16);
+    TEST_ASSERT_TRUE(SqS16(MIN_S16) == MIN_S16 * (S32)MIN_S16);
     n = randS16();
     TEST_ASSERT_TRUE(SqS16(n) == n * (S32)n);
 }
@@ -1823,17 +2019,17 @@ void test_DecrU8_NowZero(void)
     n = MAX_U8;
     res = DecrU8_NowZero(&n);
     TEST_ASSERT_TRUE(n == MAX_U8-1 && res == 0);
-    
+
     n = randU8();
     n = n <= 1 ? n+2 : n;           // 2..MAX_U8.
     p = n;
     res = DecrU8_NowZero(&n);
     TEST_ASSERT_TRUE(n == p-1 && res == 0);
-    
+
     n = 1;
     res = DecrU8_NowZero(&n);
     TEST_ASSERT_TRUE(n == 0 && res == 1);
-    
+
     n = 0;
     res = DecrU8_NowZero(&n);
     TEST_ASSERT_TRUE(n == 0 && res == 1);
@@ -1847,17 +2043,17 @@ void test_DecrU8_Was1_NowZero(void)
     n = MAX_U8;
     res = DecrU8_Was1_NowZero(&n);
     TEST_ASSERT_TRUE(n == MAX_U8-1 && res == 0);
-    
+
     n = randU8();
     n = n <= 1 ? n+2 : n;           // 2..MAX_U8.
     p = n;
     res = DecrU8_Was1_NowZero(&n);
     TEST_ASSERT_TRUE(n == p-1 && res == 0);
-    
+
     n = 1;
     res = DecrU8_Was1_NowZero(&n);
     TEST_ASSERT_TRUE(n == 0 && res == 1);
-    
+
     n = 0;
     res = DecrU8_Was1_NowZero(&n);
     TEST_ASSERT_TRUE(n == 0 && res == 0);

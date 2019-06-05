@@ -95,7 +95,7 @@ PUBLIC S16  AmulBdivC_S16_S8_S8(S16 a, S8 b, S8 c);
 PUBLIC U8   MixU8(U8 a, U8 b, U8 m);
 PUBLIC U16  MixU16(U16 a, U16 b, U8 m);
 
-
+PUBLIC S16  Mean2_S16(S16 a, S16 b);
 PUBLIC U8   Mean2_U8(U8 a, U8 b);
 PUBLIC U8   Span3_U8(U8 a, U8 b, U8 c);
 PUBLIC U8   Span4_U8(U8 a, U8 b, U8 c, U8 d);

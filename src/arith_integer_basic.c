@@ -36,9 +36,6 @@ PUBLIC U8 ClipU16toU8(U16 n)
 PUBLIC S32 ClipU32toS32(U32 n)
 	{ return n > MAX_S32 ? MAX_S32 : n; }
 
-PUBLIC U32 ClipU64toU32(U64 n)
-	{ return n > MAX_U32 ? MAX_U32 : n; }
-
 PUBLIC S16 ClipS16(S16 n, S16 min, S16 max)
 {
     return
@@ -241,8 +238,19 @@ PUBLIC U8 AmulBdivC_U8_rnd(U8 a, U8 b, U8 c)
 PUBLIC S16 AmulBdivC_S16_S8_S8(S16 a, S8 b, S8 c)
     { return AmulBdivC_S16(a,b,c); }
 
-PUBLIC S16 DeadbandS16(S16 n, S16 lo, S16 hi)
-    { return n > 0 ? (n > hi ? n : hi) : (n < lo ? n : lo); }
+PUBLIC S16 DeadbandS16(S16 n, S16 lo, S16 hi) {
+   S16 mid = Mean2_S16(lo, hi);
+   return
+      lo > hi                             // Limits upside down?
+         ? n                              // then <- 'n'
+         : (n > hi || n < lo              // Outside band
+            ? n                           // then <- just 'n'
+            : (n < mid                    // else in-band.. Below mid?
+               ? lo                       // then <- 'lo'
+               : hi)); }                 // else <- 'hi'
+
+PUBLIC S16 Mean2_S16(S16 a, S16 b)
+    { return (a + (S32)b) / 2; }
 
 PUBLIC U8 Mean2_U8(U8 a, U8 b)
     { return (a + (S16)b) / 2; }

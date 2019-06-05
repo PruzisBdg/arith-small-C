@@ -97,10 +97,6 @@
 		<Unit filename="../unit_test/arith_integer_basic/arith_integer_basic.mak">
 			<Option target="Test" />
 		</Unit>
-		<Unit filename="../unit_test/arith_integer_basic/run-test-arith_integer_basic.c">
-			<Option compilerVar="CC" />
-			<Option target="Test" />
-		</Unit>
 		<Unit filename="../unit_test/arith_integer_basic/test-arith_integer_basic.c">
 			<Option compilerVar="CC" />
 			<Option target="Test" />

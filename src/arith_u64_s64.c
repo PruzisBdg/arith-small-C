@@ -76,5 +76,11 @@ PUBLIC S64 MaxS64(S64 a, S64 b) { return a > b ? a : b; }
 PUBLIC U64 MinU64(U64 a, U64 b) { return a > b ? b : a; }
 PUBLIC S64 MinS64(S64 a, S64 b) { return a > b ? b : a; }
 
+// ------------------------------------------------------------------------------
+PUBLIC U32 ClipU64toU32(U64 n)
+	{ return n > MAX_U32 ? MAX_U32 : n; }
+
+
+
 // ---------------------------- eof -------------------------------------
 
