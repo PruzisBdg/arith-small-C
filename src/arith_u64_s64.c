@@ -80,6 +80,16 @@ PUBLIC S64 MinS64(S64 a, S64 b) { return a > b ? b : a; }
 PUBLIC U32 ClipU64toU32(U64 n)
 	{ return n > MAX_U32 ? MAX_U32 : n; }
 
+// ---- via U64 -------------------------------------------------------------------
+PUBLIC U32 AmulBdivC_U32(U32 a, U32 b, U32 c)
+{
+    return
+        a == 0 || b == 0
+        ? 0
+        : ( c == 0
+            ? MAX_U32
+            : ClipU64toU32(a * (U64)b / c));
+}
 
 
 // ---------------------------- eof -------------------------------------

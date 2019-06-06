@@ -245,10 +245,67 @@ void test_MinU64(void)
 void test_ClipU64toU32(void)
 {
    TEST_ASSERT_TRUE( 0 == ClipU64toU32(0) );
-   TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32(MAX_U32+1) );
+   TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32((U64)MAX_U32+1) );
    TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32(MAX_U32) );
    TEST_ASSERT_TRUE( MAX_U32-1 == ClipU64toU32(MAX_U32-1) );
    TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32(MAX_U64) );
+}
+
+/* ------------------------------- test_AmulBdivC_U32 --------------------------------- */
+
+typedef struct { U32 a, b, c, returns; } S_AmulBdivC_U32Chk;
+
+PRIVATE S_AmulBdivC_U32Chk AmulBdivC_U32Chks[] = {
+    // a    b       c    return
+    // --------------------------------
+
+    // Div zero cases.
+    {0,     0,      0,      0},
+    {1,     0,      0,      0},
+    {0,     1,      0,      0},
+    {1,     1,      0,      MAX_U32},
+
+    // Clipping
+    {500000,    500000,      1,      MAX_U32},
+
+    // Mul zero
+    {1004,   0,      835,      0},
+    {0,      666,   2345,      0},
+};
+
+void test_AmulBdivC_U32(void)
+{
+    U8 c;
+    U32 a, b, div, ret;
+
+    // Check corner cases tabulated above
+    for(c = 0; c < RECORDS_IN(AmulBdivC_U32Chks); c++) {
+         S_AmulBdivC_U32Chk const *ck = &AmulBdivC_U32Chks[c];
+
+         if( (ret = AmulBdivC_U32(ck->a, ck->b, ck->c)) != ck->returns) {
+            printf("test_AmulBdivC_U32() #%d failed: (%u * %u / %u) expected %lu result %u\r\n",  c, ck->a, ck->b, ck->c, ck->returns, ret);
+            TEST_ASSERT_TRUE(FALSE);
+         }
+    }
+
+    U64 chk;
+
+    // Check 100 random numbers
+    for( c = 0; c < 100; c++)
+    {
+        a = randU32(); b = randU32();
+        div = randU32(); if(div == 0) {div = 1;}
+        chk = (U64)a * b / div;
+
+        ret = AmulBdivC_U32(a,b,div);
+
+        if( (chk > MAX_U32 && ret != MAX_U32) ||
+            (chk <= MAX_U32 && chk != ret) )
+        {
+            printf("test_AmulBdivC_U32() failed: (%u * %u / %u) expected %lu result %u\r\n",  a,b,div, chk, ret);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
 }
 
 
