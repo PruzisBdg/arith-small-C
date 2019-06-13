@@ -71,6 +71,7 @@ PUBLIC U32  AminusBU32(U32 a, U32 b);
 PUBLIC S64  AminusBS64(S64 a, S64 b);
 PUBLIC U64  AminusBU64(U64 a, U64 b);
 PUBLIC S32  AminusBU32toS32(U32 a, U32 b);
+PUBLIC U32  AminusBS32toU32(S32 a, S32 b);
 PUBLIC S16  AminusBS16(S16 a, S16 b);
 PUBLIC S16  AminusBU16ToS16(U16 a, U16 b);
 #define _AminusB_unsigned(a,b)  (a > b ? a - b : 0)

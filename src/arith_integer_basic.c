@@ -308,6 +308,15 @@ PUBLIC U32 AminusBU32(U32 a, U32 b)
 PUBLIC S32 AminusBU32toS32(U32 a, U32 b)
     { return a > b ? ClipU32toS32(a - b) : (b - a > MAX_S32 ? MIN_S32 : -(S32)(b - a)); }
 
+PUBLIC U32 AminusBS32toU32(S32 a, S32 b) {
+   return
+      a > b
+         ? (
+            b > 0
+               ? a-b
+               : (a - (b+MAX_S32) - MAX_S32) )
+         : 0; }
+
 PUBLIC S16 AminusBU16ToS16(U16 a, U16 b)
     { return ClipS32toS16((S32)a - (S32)b); }
 
