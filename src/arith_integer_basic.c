@@ -314,7 +314,7 @@ PUBLIC U32 AminusBS32toU32(S32 a, S32 b) {
          ? (
             b > 0
                ? a-b
-               : (a - (b+MAX_S32) - MAX_S32) )
+               : (a - (b+MAX_S32) + MAX_S32) )
          : 0; }
 
 PUBLIC S16 AminusBU16ToS16(U16 a, U16 b)

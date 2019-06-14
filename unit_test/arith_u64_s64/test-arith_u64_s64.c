@@ -251,6 +251,38 @@ void test_ClipU64toU32(void)
    TEST_ASSERT_TRUE( MAX_U32 == ClipU64toU32(MAX_U64) );
 }
 
+/* ------------------------------------ test_ClipS64toU32 ------------------------------------- */
+
+void test_ClipS64toU32(void)
+{
+   TEST_ASSERT_TRUE( MAX_U32 == ClipS64toU32((S64)MAX_U32+1) );
+   TEST_ASSERT_TRUE( MAX_U32 == ClipS64toU32(MAX_U32) );
+   TEST_ASSERT_TRUE( MAX_U32-1 == ClipS64toU32(MAX_U32-1) );
+   TEST_ASSERT_TRUE( MAX_U32 == ClipS64toU32(MAX_S64) );
+
+   TEST_ASSERT_TRUE( 0 == ClipS64toU32(0) );
+   TEST_ASSERT_TRUE( 0 == ClipS64toU32(-1) );
+   TEST_ASSERT_TRUE( 1 == ClipS64toU32(1) );
+   TEST_ASSERT_TRUE( 0 == ClipS64toU32(MIN_S64) );
+}
+
+/* ------------------------------------ test_ClipS64toS32 ------------------------------------- */
+
+void test_ClipS64toS32(void)
+{
+   TEST_ASSERT_TRUE( 0 == ClipS64toS32(0) );
+
+   TEST_ASSERT_TRUE( MAX_S32 == ClipS64toS32((S64)MAX_S32+1) );
+   TEST_ASSERT_TRUE( MAX_S32 == ClipS64toS32(MAX_S32) );
+   TEST_ASSERT_TRUE( MAX_S32-1 == ClipS64toS32(MAX_S32-1) );
+   TEST_ASSERT_TRUE( MAX_S32 == ClipS64toS32(MAX_S64) );
+
+   TEST_ASSERT_TRUE( MIN_S32 == ClipS64toS32((S64)MIN_S32-1) );
+   TEST_ASSERT_TRUE( MIN_S32 == ClipS64toS32(MIN_S32) );
+   TEST_ASSERT_TRUE( MIN_S32+1 == ClipS64toS32(MIN_S32+1) );
+   TEST_ASSERT_TRUE( MIN_S32 == ClipS64toS32(MIN_S64) );
+}
+
 /* ------------------------------- test_AmulBdivC_U32 --------------------------------- */
 
 typedef struct { U32 a, b, c, returns; } S_AmulBdivC_U32Chk;

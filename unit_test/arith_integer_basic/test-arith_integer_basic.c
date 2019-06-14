@@ -1045,7 +1045,7 @@ void test_AminusBU32toS32(void)
 
         if( chk != res )
         {
-            printf("AminusBU32toS32() failed: %lu %lu -> %ld excpected %ld\r\n", a, b, res, chk);
+            printf("AminusBU32toS32() failed: %lu - %lu -> %ld excpected %ld\r\n", a, b, res, chk);
             TEST_ASSERT_TRUE(FALSE);
         }
     }
@@ -1060,10 +1060,13 @@ void test_AminusBS32toU32(void)
     U32 res;
     U32 chk;
 
-    // Corner cases.
+    // Nil.
     TEST_ASSERT_TRUE( AminusBS32toU32(0,0) == 0);
+    // Corners
     TEST_ASSERT_TRUE( AminusBS32toU32(MIN_S32,MIN_S32) == 0);
     TEST_ASSERT_TRUE( AminusBS32toU32(MAX_S32,MAX_S32) == 0);
+    TEST_ASSERT_TRUE( AminusBS32toU32(MAX_S32,MIN_S32) == MAX_U32);
+    TEST_ASSERT_TRUE( AminusBS32toU32(MIN_S32,MAX_S32) == 0);
 
     // Some random inputs.
     for(c = 0; c < 200; c++)
@@ -1071,11 +1074,11 @@ void test_AminusBS32toU32(void)
         a = randS32(); b = randS32();
         res = AminusBS32toU32(a,b);
 
-        chk = a > b ? ClipU64toU32((S64)a - (S64)b) : 0;
+        chk = a > b ? ClipU64toU32((U64)((S64)a - (S64)b)) : 0;
 
         if( chk != res )
         {
-            printf("AminusBS32toU32() failed: %lu %lu -> %ld excpected %ld\r\n", a, b, res, chk);
+            printf("AminusBS32toU32() failed: %ld - %ld -> %lu expected %ld\r\n", a, b, res, chk);
             TEST_ASSERT_TRUE(FALSE);
         }
     }
