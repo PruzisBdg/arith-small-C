@@ -151,6 +151,8 @@ PUBLIC float GetPwr10Float(S16 exp);
 PUBLIC S32   ClipFloatToLong(float f);
 PUBLIC U32   ClipFloatToU32(float f);
 PUBLIC S16   ClipFloatToInt(float f);
+PUBLIC S64   ClipDoubleToS64(double d);
+
 PUBLIC float MinFloat(float a, float b);
 PUBLIC float MaxFloat(float a, float b);
 PUBLIC float Mod_Float(float n, float d);
