@@ -155,6 +155,9 @@ PUBLIC float MinFloat(float a, float b);
 PUBLIC float MaxFloat(float a, float b);
 PUBLIC float Mod_Float(float n, float d);
 PUBLIC BOOL  InsideEq_Float(float n, float min, float max);
+PUBLIC S16   DecSizeFloat(float f);
+PUBLIC S16   DecSizeDouble(double f);
+
 
 PUBLIC U8 RankU8_UpTo8( U8 const *buf, U8 size, U8 rank );
 PUBLIC U8 RankU8_UpTo16( U8 const *buf, U8 size, U8 rank );

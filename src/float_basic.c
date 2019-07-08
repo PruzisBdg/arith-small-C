@@ -148,6 +148,39 @@ PUBLIC float Mod_Float(float n, float d)
     }
 }
 
+/*-----------------------------------------------------------------------------------
+|
+|  DecSizeFloat/Double
+|
+|  Get the nearest power of 10 for 'f', from the binary exponent mantissa x 2^exp,
+|  where 'mantissa' is [0.5.. 1.0].
+|
+|  Note: Use single-precision (float) functions to avoid defaulting to double
+|  (which is overkill for a diagnostic embedded printf).
+|
+--------------------------------------------------------------------------------------*/
+
+PUBLIC S16 DecSizeFloat(float f)
+{
+   int  exp2N;    // exponent as 2^N
+
+   // Hack the float, returns the exponent.
+   frexpf(f, &exp2N);
+
+   // Get the corresponding power of 10, rounded up  ( 10 = 2^3.3219.... )
+   return (S16)floorf( exp2N/3.32192809489f) + 1;
+}
+
+PUBLIC S16 DecSizeDouble(double f)
+{
+   int  exp2N;    // exponent as 2^N
+
+   // Hack the double, returns the exponent.
+   frexp(f, &exp2N);
+
+   // Get the corresponding power of 10, rounded up  ( 10 = 2^3.3219.... )
+   return (S16)floorf( exp2N/3.32192809489f) + 1;
+}
 
 
 // ------------------------------------ eof ------------------------------------------------------
