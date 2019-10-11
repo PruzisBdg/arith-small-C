@@ -160,6 +160,7 @@ PUBLIC float Mod_Float(float n, float d);
 PUBLIC BOOL  InsideEq_Float(float n, float min, float max);
 PUBLIC S16   DecSizeFloat(float f);
 PUBLIC S16   DecSizeDouble(double f);
+PUBLIC BOOL  FloatsEqual(float a, float b, float epsilon);
 
 
 PUBLIC U8 RankU8_UpTo8( U8 const *buf, U8 size, U8 rank );

@@ -6,6 +6,7 @@
 
 #include "GenericTypeDefs.h"
 #include <math.h>
+#include <float.h>
 #include "arith.h"
 
 /* ---------------------------------- MinFloat ------------------------------- */
@@ -194,5 +195,24 @@ PUBLIC S16 DecSizeDouble(double f)
    return (S16)floorf( exp2N/3.32192809489f) + 1;
 }
 
+/*-----------------------------------------------------------------------------------
+|
+|  FloatsEqual
+|
+|  Safe float comparison, handles infinities.
+|
+--------------------------------------------------------------------------------------*/
 
+PUBLIC BOOL FloatsEqual(float a, float b, float epsilon) {
+   float absA = fabs(a);
+   float absB = fabs(b);
+   float diff = fabs(a - b);
+
+   if (a == b) {                                               // shortcut, handles infinities
+      return TRUE; }
+   else if (a == 0 || b == 0 || (absA + absB < FLT_MIN )) {    // Zero, or close to
+      return diff < (epsilon * FLT_MIN ); }                    // use and absolute error
+   else {
+      return diff / MIN((absA + absB), FLT_MAX ) < epsilon; }  // else relative error less-then
+}
 // ------------------------------------ eof ------------------------------------------------------

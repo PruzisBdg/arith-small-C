@@ -108,6 +108,15 @@
 			<Option compilerVar="CC" />
 			<Option target="Test" />
 		</Unit>
+		<Unit filename="../unit_test/float_basic/float_basic.mak">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="../unit_test/float_basic/test-float_basic.c">
+			<Option compilerVar="CC" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="../unit_test/integer_func/integer_func.mak">
 			<Option target="Test" />
 		</Unit>
