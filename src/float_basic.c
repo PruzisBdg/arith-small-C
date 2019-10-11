@@ -107,6 +107,14 @@ PUBLIC float GetPwr10Float(S16 exp)
    {
       return 1.0;                            // equals 1.0
    }
+   else if(exp > FLT_MAX_10_EXP)             // Too large?
+   {
+      return FLT_MAX;                        // CLip to float max (which is not an exact power of 10)
+   }
+   else if(exp < FLT_MIN_10_EXP)             // Likewise, too small?
+   {
+      return FLT_MIN;
+   }
    else                                      // else must use Pwr10FloatTbl[]
    {
       /* Table is for positive exponents. Handle negative ones by flipping the
@@ -131,7 +139,7 @@ PUBLIC float GetPwr10Float(S16 exp)
 
       // Return with 10^exp
       if( negExp )                              // Exponent was negative?
-         { return 1.0f/f; }                     // then flip the table result
+         { return 1.0/f; }                      // then flip the table result
       else
          { return f; }                          // else return result unchanged
    }
