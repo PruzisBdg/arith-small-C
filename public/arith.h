@@ -63,6 +63,8 @@ PUBLIC U16  U16plusS16_toU16(U16 a, S16 b);
 PUBLIC U32  U32plusS16(U32 a, S16 b);
 PUBLIC U32  U32plusS32_toU32(U32 a, S32 b);
 
+PUBLIC U8 RemU8U8(U8 n, U8 mod);
+
 #define AplusBU16(a,b)  AplusB_U16((a),(b))
 
 #define _Inv_AplusB_Inv(a,b)  (1.0 / ((1.0/(a)) + (1.0/(b))) )
@@ -79,6 +81,7 @@ PUBLIC U32  AminusBS32toU32(S32 a, S32 b);
 PUBLIC S16  AminusBS16(S16 a, S16 b);
 PUBLIC S16  AminusBU16ToS16(U16 a, U16 b);
 #define _AminusB_unsigned(a,b)  (a > b ? a - b : 0)
+PUBLIC U8 AminusB_PtrToU8(U8 const *a, U8 const *b);
 
 PUBLIC BIT DecrU8_NowZero(U8 * a);
 PUBLIC BIT DecrU8_Was1_NowZero(U8 * a);
