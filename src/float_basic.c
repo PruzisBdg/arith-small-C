@@ -188,8 +188,8 @@ PUBLIC S16 DecSizeFloat(float f)
    // Hack the float, returns the exponent.
    frexpf(f, &exp2N);
 
-   // Get the corresponding power of 10, rounded up  ( 10 = 2^3.3219.... )
-   return (S16)floorf( exp2N/3.32192809489f) + 1;
+   // Get the corresponding power of 10, ( 10 = 2^3.3219.... )
+   return (S16)floorf( exp2N/3.32192809489f);
 }
 
 PUBLIC S16 DecSizeDouble(double f)
@@ -199,8 +199,8 @@ PUBLIC S16 DecSizeDouble(double f)
    // Hack the double, returns the exponent.
    frexp(f, &exp2N);
 
-   // Get the corresponding power of 10, rounded up  ( 10 = 2^3.3219.... )
-   return (S16)floorf( exp2N/3.32192809489f) + 1;
+   // Get the corresponding power of 10, ( 10 = 2^3.3219.... )
+   return (S16)floorf( exp2N/3.32192809489f);
 }
 
 /*-----------------------------------------------------------------------------------
