@@ -441,6 +441,15 @@ PUBLIC BIT DecrU8_Was1_NowZero(U8 * a)
    }
 }
 
+PUBLIC U16 IncrU16(U16 *n)
+{
+   if(*n < MAX_U16)
+   {
+      (*n)++;
+   }
+   return *n;
+}
+
 /* -------------------------- RankU8_UpTo8 --------------------------------------
 
    Returns the 'rank'th number in 'buf' of 'size'. 'rank' = 0 returns the largest.

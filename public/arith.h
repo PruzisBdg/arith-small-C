@@ -86,6 +86,8 @@ PUBLIC U8 AminusB_PtrToU8(U8 const *a, U8 const *b);
 PUBLIC BIT DecrU8_NowZero(U8 * a);
 PUBLIC BIT DecrU8_Was1_NowZero(U8 * a);
 
+PUBLIC U16 IncrU16(U16 *n);
+
 #define _SignEqualsS16(a,b) ((((a) ^ (b)) & 0x8000) == 0)
 PUBLIC BOOL SignEqualsS16(S16 a, S16 b);
 PUBLIC S16  AbsS16(S16 n);
