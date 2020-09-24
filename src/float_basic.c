@@ -42,6 +42,18 @@ PUBLIC U32 ClipFloatToU32(float f)
       return (U32)f;
 }
 
+/* ---------------------------------- ClipFloatToU16 ------------------------------- */
+
+PUBLIC U16 ClipFloatToU16(float f)
+{
+   if( f <= (float)0.0 )
+      return 0;
+   else if( f >= (float)MAX_U16 )
+      return MAX_U16;
+   else
+      return (U16)f;
+}
+
 /* ---------------------------------- ClipDoubleToS64 ------------------------------- */
 
 PUBLIC S64 ClipDoubleToS64(double d)

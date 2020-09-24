@@ -26,9 +26,19 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>arith_u64_s64.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/arith_u64_s64.c</locationURI>
+		</link>
+		<link>
 			<name>src</name>
 			<type>2</type>
 			<location>C:/spj9/swr/arith/src</location>
+		</link>
+		<link>
+			<name>src/arith_integer_basic.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/arith_integer_basic.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
