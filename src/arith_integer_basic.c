@@ -12,7 +12,7 @@
 
 // ============================= PRIVATE ====================================
 
-PRIVATE S16 AmulBdivC_S16_Raw(S16 a, S16 b, S16 c)
+PRIVATE S16 __attribute__((unused)) AmulBdivC_S16_Raw(S16 a, S16 b, S16 c)
     { return ClipS32toS16(a * (S32)b / c); }
 
 // =============================== end: PRIVATE ==============================
