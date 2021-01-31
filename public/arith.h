@@ -261,6 +261,8 @@ PUBLIC U128 AminusB_U128(U128 a, U128 b);
 PUBLIC U128 DoubleToU128(double n);
 PUBLIC double U128toDouble(U128 n);
 
+PUBLIC S16 VecU8_Sum(U8 const *v, U8 cnt);
+
 #endif	/* ARITH_H */
 
 // -------------------------------- eof -----------------------------------
