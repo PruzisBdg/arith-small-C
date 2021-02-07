@@ -86,7 +86,9 @@ PUBLIC U8 AminusB_PtrToU8(U8 const *a, U8 const *b);
 PUBLIC BIT DecrU8_NowZero(U8 * a);
 PUBLIC BIT DecrU8_Was1_NowZero(U8 * a);
 
+PUBLIC U8  IncrU8(U8 *n);
 PUBLIC U16 IncrU16(U16 *n);
+PUBLIC U32 IncrU32(U32 *n);
 
 #define _SignEqualsS16(a,b) ((((a) ^ (b)) & 0x8000) == 0)
 PUBLIC BOOL SignEqualsS16(S16 a, S16 b);
@@ -260,6 +262,11 @@ PUBLIC U128Cy AminusBCy_U128(U128 a, U128 b);
 PUBLIC U128 AminusB_U128(U128 a, U128 b);
 PUBLIC U128 DoubleToU128(double n);
 PUBLIC double U128toDouble(U128 n);
+
+PUBLIC U8 BitLogU16(U16 n);
+PUBLIC U16 BitLogU32(U32 n);
+
+PUBLIC S16 VecU8_Sum(U8 const *v, U8 cnt);
 
 #endif	/* ARITH_H */
 

@@ -441,9 +441,33 @@ PUBLIC BIT DecrU8_Was1_NowZero(U8 * a)
    }
 }
 
+/* ----------------------------------------------------------------
+|
+|  Increment 'n', but do not rollover.
+|
+-------------------------------------------------------------------*/
+
+PUBLIC U8 IncrU8(U8 *n)
+{
+   if(*n < MAX_U8)
+   {
+      (*n)++;
+   }
+   return *n;
+}
+
 PUBLIC U16 IncrU16(U16 *n)
 {
    if(*n < MAX_U16)
+   {
+      (*n)++;
+   }
+   return *n;
+}
+
+PUBLIC U32 IncrU32(U32 *n)
+{
+   if(*n < MAX_U32)
    {
       (*n)++;
    }
