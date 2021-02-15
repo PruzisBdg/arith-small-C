@@ -265,16 +265,25 @@ PUBLIC U8 Mean4_U8(U8 a, U8 b, U8 c, U8 d)
     { return (a + (S16)b + (S16)c + (S16)d + 2) / 4; }
 
 PUBLIC BIT Inside_U8(U8 a, U8 min, U8 max)
-    { return a > min && a < max; }
+   { return a > min && a < max; }
+
+PUBLIC BIT InsideEq_U8(U8 a, U8 min, U8 max)
+   { return a >= min && a <= max; }
 
 PUBLIC BIT Inside_U16(U16 a, U16 min, U16 max)
-    { return a > min && a < max; }
+   { return a > min && a < max; }
+
+PUBLIC BIT InsideEq_U16(U16 a, U16 min, U16 max)
+   { return a >= min && a <= max; }
 
 PUBLIC BIT Inside_S16(S16 a, S16 min, S16 max)
-    { return a > min && a < max; }
+   { return a > min && a < max; }
+
+PUBLIC BIT InsideEq_S16(S16 a, S16 min, S16 max)
+   { return a >= min && a <= max; }
 
 PUBLIC BIT InsideEq_U32(U32 a, U32 min, U32 max)
-    { return a >= min && a <= max; }
+   { return a >= min && a <= max; }
 
 PUBLIC S16 AbsS16(S16 n)
 {

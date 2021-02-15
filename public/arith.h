@@ -48,8 +48,11 @@ PUBLIC U64  MinU64(U64 a, U64 b);
 PUBLIC U64  MaxU64(U64 a, U64 b);
 
 PUBLIC BIT  Inside_U8(U8 a, U8 min, U8 max);
+PUBLIC BIT  InsideEq_U8(U8 a, U8 min, U8 max);
 PUBLIC BIT  Inside_U16(U16 a, U16 min, U16 max);
+PUBLIC BIT  InsideEq_U16(U16 a, U16 min, U16 max);
 PUBLIC BIT  Inside_S16(S16 a, S16 min, S16 max);
+PUBLIC BIT  InsideEq_S16(S16 a, S16 min, S16 max);
 PUBLIC BIT  InsideEq_U32(U32 a, U32 min, U32 max);
 
 PUBLIC U8   AplusBU8(U8 a, U8 b);
