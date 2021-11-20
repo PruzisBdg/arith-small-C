@@ -287,9 +287,17 @@ PUBLIC BIT InsideEq_U32(U32 a, U32 min, U32 max)
 
 PUBLIC S16 AbsS16(S16 n)
 {
+   return
+      n == MIN_S16        // Gotta watch that sign inversion!
+         ? MAX_S16
+         : (n < 0 ? -n : n);
+}
+
+PUBLIC S32 AbsS32(S32 n)
+{
     return
-        n == MIN_S16        // Gotta watch that sign inversion!
-            ? MAX_S16
+        n == MIN_S32        // Gotta watch that sign inversion!
+            ? MAX_S32
             : (n < 0 ? -n : n);
 }
 

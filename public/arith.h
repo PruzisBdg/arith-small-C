@@ -96,6 +96,7 @@ PUBLIC U32 IncrU32(U32 *n);
 #define _SignEqualsS16(a,b) ((((a) ^ (b)) & 0x8000) == 0)
 PUBLIC BOOL SignEqualsS16(S16 a, S16 b);
 PUBLIC S16  AbsS16(S16 n);
+PUBLIC S32 AbsS32(S32 n);
 
 PUBLIC S32  MulS16(S16 a, S16 b);
 PUBLIC S64  MulS32(S32 a, S32 b);
