@@ -340,6 +340,25 @@ void test_AmulBdivC_U32(void)
     }
 }
 
+/* ------------------------------- test_MulS32 ------------------------------------------ */
+
+void test_MulS32()
+{
+    TEST_ASSERT_EQUAL_INT64(MulS32(0,0), 0);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,0), 0);
+    TEST_ASSERT_EQUAL_INT64(MulS32(0,MAX_S32), 0);
+
+    TEST_ASSERT_EQUAL_INT64(MulS32(1,MAX_S32), MAX_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,1), MAX_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(1,MIN_S32), MIN_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MIN_S32,1), MIN_S32);
+
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,MAX_S32), (S64)MAX_S32*MAX_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MIN_S32,MIN_S32), (S64)MIN_S32*MIN_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,MIN_S32), (S64)MAX_S32*MIN_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MIN_S32,MAX_S32), (S64)MAX_S32*MIN_S32);
+}
+
 
 
  // ----------------------------------------- eof --------------------------------------------

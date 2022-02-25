@@ -12,8 +12,10 @@
 
 // ============================= PRIVATE ====================================
 
+// LCOV_EXCL_START
 PRIVATE S16 __attribute__((unused)) AmulBdivC_S16_Raw(S16 a, S16 b, S16 c)
     { return ClipS32toS16(a * (S32)b / c); }
+// LCOV_EXCL_STOP
 
 // =============================== end: PRIVATE ==============================
 
@@ -345,11 +347,11 @@ PUBLIC S16 AminusBS16(S16 a, S16 b)
 
 PUBLIC U8 AminusB_PtrToU8(U8 const *a, U8 const *b) {
    return
-      a <= b
+      *a <= *b
          ? 0
-         : ( (a - b) > 0xFF
+         : ( (*a - *b) > 0xFF
             ? 0xFF
-            : a - b); }
+            : *a - *b); }
 
 
 

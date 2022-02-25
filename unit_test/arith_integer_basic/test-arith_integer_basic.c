@@ -92,6 +92,18 @@ void test_ClipS32toU16(void)
     TEST_ASSERT_TRUE( ClipS32toU16(MIN_S32) == 0 );
 }
 
+/* ------------------------------------ test_ClipS64toU32 ------------------------------------- */
+
+void test_ClipS64toU32(void)
+{
+    TEST_ASSERT_TRUE( ClipS64toU32(0) == 0 );
+    TEST_ASSERT_TRUE( ClipS64toU32((S64)MAX_U32) == MAX_U32 );
+    TEST_ASSERT_TRUE( ClipS64toU32((S64)MAX_U32+1) == MAX_U32 );
+    TEST_ASSERT_TRUE( ClipS64toU32((S64)MAX_U32-1) == MAX_U32-1 );
+    TEST_ASSERT_TRUE( ClipS64toU32(MAX_S64) == MAX_U32 );
+    TEST_ASSERT_TRUE( ClipS64toU32(MIN_S64) == 0 );
+}
+
 /* ------------------------------------ test_ClipS16toU8 ------------------------------------- */
 
 void test_ClipS16toU8(void)
@@ -104,6 +116,38 @@ void test_ClipS16toU8(void)
     TEST_ASSERT_TRUE( ClipS16toU8(MAX_S16) == MAX_U8 );
     TEST_ASSERT_TRUE( ClipS16toU8(MIN_S16) == 0 );
 }
+
+/* ------------------------------------ test_ClipS16toS8 ------------------------------------- */
+
+void test_ClipS16toS8(void)
+{
+    TEST_ASSERT_TRUE( ClipS16toS8(0) == 0 );
+    TEST_ASSERT_TRUE( ClipS16toS8((S16)MIN_S8) == MIN_S8 );
+    TEST_ASSERT_TRUE( ClipS16toS8((S16)MIN_S8-1) == MIN_S8 );
+    TEST_ASSERT_TRUE( ClipS16toS8((S16)MIN_S8+1) == MIN_S8+1 );
+    TEST_ASSERT_TRUE( ClipS16toS8((S16)MAX_S8) == MAX_S8 );
+    TEST_ASSERT_TRUE( ClipS16toS8((S16)MAX_S8+1) == MAX_S8 );
+    TEST_ASSERT_TRUE( ClipS16toS8((S16)MAX_S8-1) == MAX_S8-1 );
+    TEST_ASSERT_TRUE( ClipS16toS8(MAX_S16) == MAX_S8 );
+    TEST_ASSERT_TRUE( ClipS16toS8(MIN_S16) == MIN_S8 );
+}
+
+
+/* ------------------------------------ test_ClipS64toS32 ------------------------------------- */
+
+void test_ClipS64toS32(void)
+{
+    TEST_ASSERT_TRUE( ClipS64toS32(0) == 0 );
+    TEST_ASSERT_TRUE( ClipS64toS32((S64)MIN_S32) == MIN_S32 );
+    TEST_ASSERT_TRUE( ClipS64toS32((S64)MIN_S32-1) == MIN_S32 );
+    TEST_ASSERT_TRUE( ClipS64toS32((S64)MIN_S32+1) == MIN_S32+1 );
+    TEST_ASSERT_TRUE( ClipS64toS32((S64)MAX_S32) == MAX_S32 );
+    TEST_ASSERT_TRUE( ClipS64toS32((S64)MAX_S32+1) == MAX_S32 );
+    TEST_ASSERT_TRUE( ClipS64toS32((S64)MAX_S32-1) == MAX_S32-1 );
+    TEST_ASSERT_TRUE( ClipS64toS32(MAX_S64) == MAX_S32 );
+    TEST_ASSERT_TRUE( ClipS64toS32(MIN_S64) == MIN_S32 );
+}
+
 
 
 /* ------------------------------------ test_ClipU16toU8 ------------------------------------- */
@@ -125,6 +169,18 @@ void test_ClipU32toS32(void)
     TEST_ASSERT_TRUE( ClipU32toS32(MAX_U32) == MAX_S32 );
     TEST_ASSERT_TRUE( ClipU32toS32(MAX_S32) == MAX_S32 );
     TEST_ASSERT_TRUE( ClipU32toS32(1000) == 1000 );
+}
+
+/* ------------------------------------ test_ClipU64toU32 ------------------------------------- */
+
+void test_ClipU64toU32(void)
+{
+    TEST_ASSERT_TRUE( ClipU64toU32(0) == 0 );
+    TEST_ASSERT_TRUE( ClipU64toU32((U64)MAX_U32) == MAX_U32 );
+    TEST_ASSERT_TRUE( ClipU64toU32((U64)MAX_U32+1) == MAX_U32 );
+    TEST_ASSERT_TRUE( ClipU64toU32((U64)MAX_U32-1) == MAX_U32-1 );
+    TEST_ASSERT_TRUE( ClipU64toU32(MAX_U64) == MAX_U32 );
+    TEST_ASSERT_TRUE( ClipU64toU32(0) == 0 );
 }
 
 /* ------------------------------------ test_MinS8 ------------------------------------- */
@@ -246,6 +302,65 @@ void test_MaxS16(void)
     TEST_ASSERT_TRUE( MaxS16(MAX_S16, 0) == MAX_S16 );
     TEST_ASSERT_TRUE( MaxS16(MIN_S16, 0) == 0 );
     TEST_ASSERT_TRUE( MaxS16(MIN_S16, MAX_S16) == MAX_S16 );
+}
+
+/* ------------------------------------ test_MinS64 ------------------------------------- */
+
+void test_MinS64(void)
+{
+    U8 c;
+    S64 a, b;
+
+    for( c = 0; c < 20; c++ )
+    {
+        a = randS64(); b = randS64();
+
+        if( MinS64(a,b) != (a < b ? a : b ) ||
+            MinS64(b,a) != (b < a ? b : a ) ||
+            MinS64(-b,-a) != (a > b ? -a : -b ) ||
+            MinS64(-a,-b) != (a > b ? -a : -b ) ||
+            MinS64(a,a) != a)
+        {
+            printf("MinS64() failed a = %d b = %d\r\n", a, b);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+
+    // Corner cases
+    TEST_ASSERT_TRUE( MinS64(0,0) == 0 );
+    TEST_ASSERT_TRUE( MinS64(MAX_S64, 0) == 0 );
+    TEST_ASSERT_TRUE( MinS64(MIN_S64, 0) == MIN_S64 );
+    TEST_ASSERT_TRUE( MinS64(MIN_S64, MAX_S64) == MIN_S64 );
+}
+
+
+/* ------------------------------------ test_MaxS64 ------------------------------------- */
+
+void test_MaxS64(void)
+{
+    U8 c;
+    S64 a, b;
+
+    for( c = 0; c < 20; c++ )
+    {
+        a = randS64(); b = randS64();
+
+        if( MaxS64(a,b) != (a > b ? a : b ) ||
+            MaxS64(b,a) != (b > a ? b : a ) ||
+            MaxS64(-b,-a) != (a < b ? -a : -b ) ||
+            MaxS64(-a,-b) != (a < b ? -a : -b ) ||
+            MaxS64(a,a) != a)
+        {
+            printf("MaxS64() failed a = %d b = %d\r\n", a, b);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+
+    // Corner cases
+    TEST_ASSERT_TRUE( MaxS64(0,0) == 0 );
+    TEST_ASSERT_TRUE( MaxS64(MAX_S64, 0) == MAX_S64 );
+    TEST_ASSERT_TRUE( MaxS64(MIN_S64, 0) == 0 );
+    TEST_ASSERT_TRUE( MaxS64(MIN_S64, MAX_S64) == MAX_S64 );
 }
 
 /* ------------------------------------ test_ClipS32 ------------------------------------- */
@@ -655,6 +770,65 @@ void test_MaxU32(void)
 }
 
 
+/* ---------------------------------- test_MinU64 ------------------------------------- */
+
+void test_MinU64(void)
+{
+    U8 c;
+    U64 a, b;
+
+    for( c = 0; c < 20; c++ )
+    {
+        a = randU64(); b = randU64();
+
+        if( MinU64(a,b) != (a < b ? a : b ) ||
+            MinU64(b,a) != (b < a ? b : a ) ||
+            MinU64(a,a) != a)
+        {
+            printf("MinU64() failed a = %lu b = %lu\r\n", a, b);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+
+    // Corner cases
+    TEST_ASSERT_TRUE(MinU64(0,0) == 0);
+    TEST_ASSERT_TRUE(MinU64(0,10) == 0);
+    TEST_ASSERT_TRUE(MinU64(20,0) == 0);
+    TEST_ASSERT_TRUE(MinU64(MAX_U64,300) == 300);
+    TEST_ASSERT_TRUE(MinU64(300,MAX_U64) == 300);
+    TEST_ASSERT_TRUE(MinU64(MAX_U64,MAX_U64) == MAX_U64);
+}
+
+/* ---------------------------------- test_MaxU64 ------------------------------------- */
+
+void test_MaxU64(void)
+{
+    U8 c;
+    U64 a, b;
+
+    for( c = 0; c < 20; c++ )
+    {
+        a = randU64(); b = randU64();
+
+        if( MaxU64(a,b) != (a > b ? a : b ) ||
+            MaxU64(b,a) != (b > a ? b : a ) ||
+            MaxU64(a,a) != a)
+        {
+            printf("MaxU64() failed a = %lu b = %lu\r\n", a, b);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+
+    // Corner cases
+    TEST_ASSERT_TRUE(MaxU64(0,0) == 0);
+    TEST_ASSERT_TRUE(MaxU64(0,10) == 10);
+    TEST_ASSERT_TRUE(MaxU64(20,0) == 20);
+    TEST_ASSERT_TRUE(MaxU64(MAX_U64,300) == MAX_U64);
+    TEST_ASSERT_TRUE(MaxU64(300,MAX_U64) == MAX_U64);
+    TEST_ASSERT_TRUE(MaxU64(MAX_U64,MAX_U64) == MAX_U64);
+}
+
+
 
 /* ------------------------------ test_AplusBU8 -------------------------------------- */
 
@@ -767,7 +941,7 @@ void test_AplusBU32(void)
 {
     U8 c;
     U32 a, b, res;
-    U32 chk;
+    U64 chk;
 
     TEST_ASSERT_TRUE(AplusBU32(MAX_U32, 0) == MAX_U32);
     TEST_ASSERT_TRUE(AplusBU32(0, MAX_U32) == MAX_U32);
@@ -778,7 +952,8 @@ void test_AplusBU32(void)
     for( c = 0; c < 100; c++)
     {
         a = randU32(); b = randU32();
-        chk = (U32)a + b;
+        chk = (U64)a + b;
+        if(chk > MAX_U32) {chk = MAX_U32;}
         res = AplusBU32(a,b);
 
         if( (chk > MAX_U32 && res != MAX_U32) ||
@@ -796,7 +971,7 @@ void test_AplusBS32(void)
 {
     U8 c;
     S32 a, b, res;
-    S32 chk;
+    S64 chk;
 
     TEST_ASSERT_TRUE(AplusBS32(MAX_S32, 0) == MAX_S32);
     TEST_ASSERT_TRUE(AplusBS32(0, MAX_S32) == MAX_S32);
@@ -807,7 +982,8 @@ void test_AplusBS32(void)
     for( c = 0; c < 100; c++)
     {
         a = randS32(); b = randS32();
-        chk = a+b;
+        chk = (S64)a+b;
+        if(chk > MAX_S32) {chk = MAX_S32;}
         res = AplusBS32(a,b);
 
         BOOL over  = a >= 0 && b >= 0 && a+b < 0;       // overflow
@@ -860,7 +1036,8 @@ void test_U32plusS16(void)
 void test_U32plusS32_toU32(void)
 {
     U8 c;
-    U32 a, res, chk;
+    U32 a, res;
+    U64 chk;
     S32 b;
 
     TEST_ASSERT_TRUE(U32plusS32_toU32(MAX_U32, 0) == MAX_U32);
@@ -874,7 +1051,8 @@ void test_U32plusS32_toU32(void)
     for( c = 0; c < 100; c++)
     {
         a = randU32(); b = randS32();
-        chk = a+b;
+        chk = (U64)a+b;
+        if(chk > MAX_U32) {chk = MAX_U32;}
         res = U32plusS32_toU32(a,b);
 
         BOOL over  = a >= 0 && b >= 0 && a+b < 0;       // overflow
@@ -928,7 +1106,43 @@ void test_SignEqualsS16(void)
         { TEST_ASSERT_TRUE( SignEqualsS16(signEqS16_Chks[c].a, signEqS16_Chks[c].b) == signEqS16_Chks[c].result); }
 }
 
+/* ------------------------------- test_MulS16 ------------------------------------------ */
 
+void test_MulS16()
+{
+    TEST_ASSERT_EQUAL_INT32(MulS16(0,0), 0);
+    TEST_ASSERT_EQUAL_INT32(MulS16(MAX_S16,0), 0);
+    TEST_ASSERT_EQUAL_INT32(MulS16(0,MAX_S16), 0);
+
+    TEST_ASSERT_EQUAL_INT32(MulS16(1,MAX_S16), MAX_S16);
+    TEST_ASSERT_EQUAL_INT32(MulS16(MAX_S16,1), MAX_S16);
+    TEST_ASSERT_EQUAL_INT32(MulS16(1,MIN_S16), MIN_S16);
+    TEST_ASSERT_EQUAL_INT32(MulS16(MIN_S16,1), MIN_S16);
+
+    TEST_ASSERT_EQUAL_INT32(MulS16(MAX_S16,MAX_S16), (S32)MAX_S16*MAX_S16);
+    TEST_ASSERT_EQUAL_INT32(MulS16(MIN_S16,MIN_S16), (S32)MIN_S16*MIN_S16);
+    TEST_ASSERT_EQUAL_INT32(MulS16(MAX_S16,MIN_S16), (S32)MAX_S16*MIN_S16);
+    TEST_ASSERT_EQUAL_INT32(MulS16(MIN_S16,MAX_S16), (S32)MAX_S16*MIN_S16);
+}
+
+/* ------------------------------- test_MulS32 ------------------------------------------ */
+
+void test_MulS32()
+{
+    TEST_ASSERT_EQUAL_INT64(MulS32(0,0), 0);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,0), 0);
+    TEST_ASSERT_EQUAL_INT64(MulS32(0,MAX_S32), 0);
+
+    TEST_ASSERT_EQUAL_INT64(MulS32(1,MAX_S32), MAX_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,1), MAX_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(1,MIN_S32), MIN_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MIN_S32,1), MIN_S32);
+
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,MAX_S32), (S64)MAX_S32*MAX_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MIN_S32,MIN_S32), (S64)MIN_S32*MIN_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MAX_S32,MIN_S32), (S64)MAX_S32*MIN_S32);
+    TEST_ASSERT_EQUAL_INT64(MulS32(MIN_S32,MAX_S32), (S64)MAX_S32*MIN_S32);
+}
 
 /* ------------------------------ test_AminusBU8 -------------------------------------- */
 
@@ -939,6 +1153,18 @@ void test_AminusBU8(void)
     TEST_ASSERT_TRUE( AminusBU8(0,MAX_U8) == 0);
     TEST_ASSERT_TRUE( AminusBU8(MAX_U8,MAX_U8) == 0);
     TEST_ASSERT_TRUE( AminusBU8(4,2) == 2);
+}
+
+/* ----------------------------- test_AminusB_PtrToU8 ----------------------------------------- */
+
+void test_AminusB_PtrToU8()
+{
+    // Corner cases.
+    TEST_ASSERT_TRUE( AminusB_PtrToU8( (U8[]){0},(U8[]){0}) == 0);
+    TEST_ASSERT_TRUE( AminusB_PtrToU8( (U8[1]){MAX_U8}, (U8[1]){0}) == MAX_U8);
+    TEST_ASSERT_TRUE( AminusB_PtrToU8( (U8[1]){MAX_U8-1}, (U8[1]){0} ) == MAX_U8-1);
+    TEST_ASSERT_TRUE( AminusB_PtrToU8( (U8[1]){MAX_U8}, (U8[1]){MAX_U8} ) == 0);
+    TEST_ASSERT_TRUE( AminusB_PtrToU8( (U8[1]){4}, (U8[1]){2}) == 2);
 }
 
 /* ------------------------------ test_AminusBU16 -------------------------------------- */
@@ -1012,6 +1238,8 @@ void test_AminusBU16ToS16(void)
     }
 }
 
+
+
 /* ------------------------------ test_AminusBU32toS32 -------------------------------------- */
 
 void test_AminusBU32toS32(void)
@@ -1019,7 +1247,7 @@ void test_AminusBU32toS32(void)
     U8 c;
     U32 a, b;
     S32 res;
-    S32 chk;
+    S64 chk;
 
     // Corner cases.
     TEST_ASSERT_TRUE( AminusBU32toS32(0,0) == 0);
@@ -1041,11 +1269,16 @@ void test_AminusBU32toS32(void)
                         ? MAX_S32                           \
                         : ((a) - (b)))
 
-        chk = (a > b) ? _aMinusb_Clip(a,b) : -_aMinusb_Clip(b,a);
+        #define _aMinusb_Clip_2(a,b)                          \
+            (((b) < MAX_U32-MAX_S32 && (a) > (b)+MAX_S32)   \
+                        ? (S64)MAX_S32+1                           \
+                        : ((a) - (b)))
 
-        if( chk != res )
+        chk = (a > b) ? _aMinusb_Clip(a,b) : -_aMinusb_Clip_2(b,a);
+
+        if( (S32)chk != res )
         {
-            printf("AminusBU32toS32() failed: %lu - %lu -> %ld excpected %ld\r\n", a, b, res, chk);
+            printf("AminusBU32toS32() failed: %lu - %lu -> %lld expected %lld\r\n", a, b, res, chk);
             TEST_ASSERT_TRUE(FALSE);
         }
     }
@@ -1088,9 +1321,26 @@ void test_AminusBS32toU32(void)
 
 void test_AbsS16(void)
 {
+    TEST_ASSERT_TRUE(AbsS16(0) == 0);
+    TEST_ASSERT_TRUE(AbsS16(-1) == 1);
     TEST_ASSERT_TRUE(AbsS16(-3214) == 3214);
+    TEST_ASSERT_TRUE(AbsS16(768) == 768);
     TEST_ASSERT_TRUE(AbsS16(MAX_S16) == MAX_S16);
     TEST_ASSERT_TRUE(AbsS16(MIN_S16) == MAX_S16);
+}
+
+/* ------------------------------ test_AbsS32 ----------------------------------------- */
+
+void test_AbsS32(void)
+{
+    TEST_ASSERT_TRUE(AbsS32(0) == 0);
+    TEST_ASSERT_TRUE(AbsS32(-1) == 1);
+    TEST_ASSERT_TRUE(AbsS32(-3214) == 3214);
+    TEST_ASSERT_TRUE(AbsS32(768) == 768);
+    TEST_ASSERT_TRUE(AbsS32(MAX_S16) == MAX_S16);
+    TEST_ASSERT_TRUE(AbsS32(MIN_S16) == MAX_S16+1);
+    TEST_ASSERT_TRUE(AbsS32(MAX_S32) == MAX_S32);
+    TEST_ASSERT_TRUE(AbsS32(MIN_S32) == MAX_S32);
 }
 
 /* ---------------------------------- test_AbsDiffU8 ----------------------------------- */
@@ -1240,6 +1490,35 @@ void test_Inside_U16(void)
 }
 
 
+/* -------------------------------- test_InsideEq_S16 ------------------------------------- */
+
+void test_InsideEq_S16(void)
+{
+    // Corners
+    TEST_ASSERT_TRUE(InsideEq_S16(0,0,0) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_S16(MAX_S16,MAX_S16,MAX_S16) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_S16(MIN_S16,MIN_S16,MIN_S16) == TRUE);
+
+    // Crossed limits (min > max)
+    TEST_ASSERT_TRUE(InsideEq_S16(33,MAX_S16,0) == FALSE);
+
+    TEST_ASSERT_TRUE(InsideEq_S16(33,33,33) == TRUE);
+
+    // One above or below
+    TEST_ASSERT_TRUE(InsideEq_S16(29,28,30) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_S16(-29,-30,-28) == TRUE);
+
+    // May be at min or max
+    TEST_ASSERT_TRUE(InsideEq_S16( 29,29,30) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_S16( 29,28,29) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_S16(-29,-29,-28) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_S16(-29,-30,-29) == TRUE);
+
+    TEST_ASSERT_TRUE(InsideEq_S16(100,50,200) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_S16(0,50,200) == FALSE);
+    TEST_ASSERT_TRUE(Inside_S16(220,50,200) == FALSE);
+}
+
 /* -------------------------------- test_Inside_S16 ------------------------------------- */
 
 void test_Inside_S16(void)
@@ -1268,6 +1547,62 @@ void test_Inside_S16(void)
     TEST_ASSERT_TRUE(Inside_S16(0,50,200) == FALSE);
     TEST_ASSERT_TRUE(Inside_S16(220,50,200) == FALSE);
 }
+
+/* -------------------------------- test_InsideEq_U8 ------------------------------------- */
+
+void test_InsideEq_U8(void)
+{
+    // Corners
+    TEST_ASSERT_TRUE(InsideEq_U8(0,0,0) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_U8(MAX_U8,MAX_U8,MAX_U8) == TRUE);
+
+    // Crossed limits (min > max)
+    TEST_ASSERT_TRUE(InsideEq_U8(33,MAX_U8,0) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U8(MAX_U8,MAX_U8,0) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U8(0,MAX_U8,0) == FALSE);
+
+    TEST_ASSERT_TRUE(InsideEq_U8(33,33,33) == TRUE);
+
+    // One above or below
+    TEST_ASSERT_TRUE(InsideEq_U8(29,29,30) == TRUE);
+
+    // Must be between min & max
+    TEST_ASSERT_TRUE(InsideEq_U8( 28,29,30) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U8( 30,28,29) == FALSE);
+
+    TEST_ASSERT_TRUE(InsideEq_U8(100,50,200) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_U8(0,50,200) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U8(220,50,200) == FALSE);
+}
+
+
+/* -------------------------------- test_InsideEq_U16 ------------------------------------- */
+
+void test_InsideEq_U16(void)
+{
+    // Corners
+    TEST_ASSERT_TRUE(InsideEq_U16(0,0,0) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_U16(MAX_U16,MAX_U16,MAX_U16) == TRUE);
+
+    // Crossed limits (min > max)
+    TEST_ASSERT_TRUE(InsideEq_U16(33,MAX_U16,0) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U16(MAX_U16,MAX_U16,0) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U16(0,MAX_U16,0) == FALSE);
+
+    TEST_ASSERT_TRUE(InsideEq_U16(33,33,33) == TRUE);
+
+    // One above or below
+    TEST_ASSERT_TRUE(InsideEq_U16(29,29,30) == TRUE);
+
+    // Must be between min & max
+    TEST_ASSERT_TRUE(InsideEq_U16( 28,29,30) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U16( 30,28,29) == FALSE);
+
+    TEST_ASSERT_TRUE(InsideEq_U16(100,50,200) == TRUE);
+    TEST_ASSERT_TRUE(InsideEq_U16(0,50,200) == FALSE);
+    TEST_ASSERT_TRUE(InsideEq_U16(220,50,200) == FALSE);
+}
+
 
 /* -------------------------------- test_InsideEq_U32 ------------------------------------- */
 
@@ -1482,6 +1817,56 @@ void test_AmulBdivC_U16(void)
             (chk <= MAX_U16 && chk != ret) )
         {
             printf("test_AmulBdivC_U16() failed: (%u * %u / %u) expected %lu result %u\r\n",  a,b,div, chk, ret);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+}
+
+/* ------------------------------- test_AmulBdivC_U32 --------------------------------- */
+
+typedef struct { U32 a, b, c, returns; } S_AmulBdivC_U32Chk;
+
+PRIVATE S_AmulBdivC_U32Chk AmulBdivC_U32Chks[] = {
+    // a    b       c    return
+    // --------------------------------
+
+    // Div zero cases.
+    {0,     0,      0,      0},
+    {1,     0,      0,      0},
+    {0,     1,      0,      0},
+    {1,     1,      0,      MAX_U32},
+
+    // Clipping
+    {500000,    500000,      1,      MAX_U32},
+
+    // Mul zero
+    {1004,   0,      835,      0},
+    {0,      666,   2345,      0},
+};
+
+void test_AmulBdivC_U32(void)
+{
+    U8 c;
+    U32 a, b, div, ret;
+    U64 chk;
+
+    // Check corner cases tabulated above
+    for(c = 0; c < RECORDS_IN(AmulBdivC_U32Chks); c++)
+        { TEST_ASSERT_TRUE( AmulBdivC_U32(AmulBdivC_U32Chks[c].a, AmulBdivC_U32Chks[c].b, AmulBdivC_U32Chks[c].c) == AmulBdivC_U32Chks[c].returns); }
+
+    // Check 100 random numbers
+    for( c = 0; c < 100; c++)
+    {
+        a = randU32(); b = randU32();
+        div = randU32(); if(div == 0) {div = 1;}
+        chk = (U64)a * b / div;
+
+        ret = AmulBdivC_U32(a,b,div);
+
+        if( (chk > MAX_U32 && ret != MAX_U32) ||
+            (chk <= MAX_U32 && chk != ret) )
+        {
+            printf("test_AmulBdivC_U32() failed: (%lxh * %lxh / %lxh) expected %lxh result %lxh\r\n",  a,b,div, chk, ret);
             TEST_ASSERT_TRUE(FALSE);
         }
     }
@@ -2178,6 +2563,481 @@ void test_RankU8_UpTo8(void)
     }
 }
 
+
+/* -------------------------------- test_IncrU8 --------------------------------- */
+
+void test_IncrU8(void)
+{
+   typedef struct {U8 in; U8 rtn;} S_Tst;
+
+   S_Tst const tsts[] = {
+      {.in = 0,         .rtn = 1},
+      {.in = 34,        .rtn = 35},
+      {.in = MAX_U8-1,  .rtn = MAX_U8},
+      {.in = MAX_U8,    .rtn = MAX_U8},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      U8 in[2];
+      in[0] = t->in;
+      in[1] = 0x5A;     // Prefill to check for output buffer overrange.
+
+      U8 rtn = IncrU8(in);
+
+      BOOL fail = FALSE;
+
+      if(in[1] != 0x5A)
+      {
+         printf("IncrU8() failed: Outbuffer overrun");
+         fail = TRUE;
+      }
+      if(in[0] != t->rtn || rtn != t->rtn)
+      {
+         printf("IncrU8() failed: expected %u+1->%u; got %u<-IncrcU8(%u<-)\r\n", t->in, t->rtn, rtn, in[0]);
+         fail = TRUE;
+
+      }
+      TEST_ASSERT_TRUE(fail == FALSE);
+   }
+}
+
+/* -------------------------------- test_IncrU16 --------------------------------- */
+
+void test_IncrU16(void)
+{
+   typedef struct {U16 in; U16 rtn;} S_Tst;
+
+   S_Tst const tsts[] = {
+      {.in = 0,         .rtn = 1},
+      {.in = 34,        .rtn = 35},
+      {.in = MAX_U16-1,  .rtn = MAX_U16},
+      {.in = MAX_U16,    .rtn = MAX_U16},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      U16 in[2];
+      in[0] = t->in;
+      in[1] = 0x5A5A;     // Prefill to check for output buffer overrange.
+
+      U16 rtn = IncrU16(in);
+
+      BOOL fail = FALSE;
+
+      if(in[1] != 0x5A5A)
+      {
+         printf("IncrU16() failed: Outbuffer overrun");
+         fail = TRUE;
+      }
+      if(in[0] != t->rtn || rtn != t->rtn)
+      {
+         printf("IncrU16() failed: expected %u+1->%u; got %u<-IncrcU16(%u<-)\r\n", t->in, t->rtn, rtn, in[0]);
+         fail = TRUE;
+
+      }
+      TEST_ASSERT_TRUE(fail == FALSE);
+   }
+}
+
+/* -------------------------------- test_IncrU32 --------------------------------- */
+
+void test_IncrU32(void)
+{
+   typedef struct {U32 in; U32 rtn;} S_Tst;
+
+   S_Tst const tsts[] = {
+      {.in = 0,         .rtn = 1},
+      {.in = 12345678,  .rtn = 12345679},
+      {.in = MAX_U32-1, .rtn = MAX_U32},
+      {.in = MAX_U32,   .rtn = MAX_U32},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      U32 in[2];
+      in[0] = t->in;
+      in[1] = 0x5A5A5A5A;     // Prefill to check for output buffer overrange.
+
+      U32 rtn = IncrU32(in);
+
+      BOOL fail = FALSE;
+
+      if(in[1] != 0x5A5A5A5A)
+      {
+         printf("IncrU32() failed: Outbuffer overrun");
+         fail = TRUE;
+      }
+      if(in[0] != t->rtn || rtn != t->rtn)
+      {
+         printf("IncrU32() failed: expected %lu+1->%lu; got %lu<-IncrcU32(%lu<-)\r\n", t->in, t->rtn, rtn, in[0]);
+         fail = TRUE;
+
+      }
+      TEST_ASSERT_TRUE(fail == FALSE);
+   }
+}
+
+/* ------------------------------------ test_AplusBS64 ------------------------------------ */
+
+void test_AplusBS64(void)
+{
+   typedef struct {S64 a, b, rtn;} S_Tst;
+
+   S_Tst const tsts[] = {
+      {.a = 0,       .b = 0,        .rtn = 0},
+      {.a = 1,       .b = 2,        .rtn = 3},
+      {.a = 2,       .b = 1,        .rtn = 3},
+      {.a = -1,      .b = -2,       .rtn = -3},
+      {.a = -2,      .b = -1,       .rtn = -3},
+
+      // Corner cases
+      {.a = MAX_S64, .b = 0,        .rtn = MAX_S64},
+      {.a = 0,       .b = MAX_S64,  .rtn = MAX_S64},
+      {.a = MIN_S64, .b = 0,        .rtn = MIN_S64},
+      {.a = 0,       .b = MIN_S64,  .rtn = MIN_S64},
+
+      {.a = MAX_S64, .b = MIN_S64,  .rtn = -1},
+      {.a = MIN_S64, .b = MAX_S64,  .rtn = -1},
+
+      {.a = MAX_S64,   .b = MIN_S64+1, .rtn = 0},
+      {.a = MIN_S64+1, .b = MAX_S64,   .rtn = 0},
+
+      // Overrange is clipped.
+      {.a = MAX_S64, .b = 1,        .rtn = MAX_S64},
+      {.a = 1,       .b = MAX_S64,  .rtn = MAX_S64},
+      {.a = MAX_S64, .b = MAX_S64,  .rtn = MAX_S64},
+
+      {.a = MIN_S64, .b = -1,       .rtn = MIN_S64},
+      {.a = -1,      .b = MIN_S64,  .rtn = MIN_S64},
+      {.a = MIN_S64, .b = MIN_S64,  .rtn = MIN_S64},
+
+      // Just inside overrange... is not cliped.
+      {.a = MAX_S64-2,  .b = 1,           .rtn = MAX_S64-1},
+      {.a = 1,          .b = MAX_S64-2,   .rtn = MAX_S64-1},
+      {.a = MIN_S64+2,  .b = -1,          .rtn = MIN_S64+1},
+      {.a = -1,         .b = MIN_S64+2,   .rtn = MIN_S64+1},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      S64 rtn = AplusBS64(t->a, t->b);
+
+      if(rtn != t->rtn)
+      {
+         printf("AplusBS64() #%d failed: expected %lld + %lld -> %lld; got %lld\r\n", i, t->a, t->b, t->rtn, rtn);
+         TEST_FAIL();
+      }
+   }
+
+   // 200 tests random inputs.
+   for(U8 i = 0; i < 200; i++)
+   {
+      S64 a = randS64(); S64 b = randS64();
+      S64 rtn = AplusBS64(a,b);
+
+      // Use double to check for overrange. Double is 48bit vs 64bit so will miss a few numbers
+      // near the edge but OK for a test.
+      S64 chkOverflow(S64 a, S64 b) {
+         double sum = (double)a + (double)b;
+         return
+            sum >= (double)MAX_S64
+               ? MAX_S64
+               : (sum <= (double)MIN_S64
+                  ? MIN_S64
+                  : a+b );
+
+      }
+
+      S64 chk = chkOverflow(a,b);
+
+      if( chk != rtn )
+      {
+         printf("AplusBS64() failed #%d: expected %llxh + %llxh -> %llxh; got %llxh\r\n", i, a, b, chk, rtn);
+         TEST_ASSERT_TRUE(FALSE);
+      }
+   }
+}
+
+/* ------------------------------------ test_AminusBS64 ------------------------------------ */
+
+void test_AminusBS64(void)
+{
+   typedef struct {S64 a, b, rtn;} S_Tst;
+
+   S_Tst const tsts[] = {
+      {.a = 0,       .b = 0,        .rtn = 0},
+      {.a = 1,       .b = 2,        .rtn = -1},
+      {.a = 2,       .b = 1,        .rtn = 1},
+      {.a = -1,      .b = -2,       .rtn = 1},
+      {.a = -2,      .b = -1,       .rtn = -1},
+
+      // Corner cases
+      {.a = MAX_S64, .b = 0,        .rtn = MAX_S64},
+      {.a = 0,       .b = MAX_S64,  .rtn = -MAX_S64},
+      {.a = MIN_S64, .b = 0,        .rtn = MIN_S64},
+      // is clipped MAX_S64 = (-MIN_S64)-1
+      {.a = 0,       .b = MIN_S64,  .rtn = MAX_S64},
+
+      {.a = MAX_S64, .b = 1,        .rtn = MAX_S64-1},
+      {.a = MIN_S64, .b = -1,       .rtn = MIN_S64+1},
+
+      {.a = MAX_S64, .b = MAX_S64,  .rtn = 0},
+      {.a = MIN_S64, .b = MIN_S64,  .rtn = 0},
+
+      {.a = MAX_S64, .b = MIN_S64,  .rtn = MAX_S64},
+      {.a = MIN_S64, .b = MAX_S64,  .rtn = MIN_S64},
+
+
+      // Overrange is clipped.
+      {.a = -1,      .b = MAX_S64,  .rtn = MIN_S64},
+      {.a = -2,      .b = MAX_S64,  .rtn = MIN_S64},
+
+      {.a = -1,      .b = MIN_S64,  .rtn = MAX_S64},
+
+      // At or just inside overrange... is not cliped.
+      {.a = 0,       .b = MAX_S64,   .rtn = MIN_S64+1},
+      {.a = 0,       .b = MIN_S64+2, .rtn = MAX_S64-1},
+      {.a = 0,       .b = MIN_S64+1, .rtn = MAX_S64},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      S64 rtn = AminusBS64(t->a, t->b);
+
+      if(rtn != t->rtn)
+      {
+         printf("AminusBS64() #%d failed: expected %llxh + %llxh -> %llxh; got %llxh\r\n", i, t->a, t->b, t->rtn, rtn);
+         TEST_FAIL();
+      }
+   }
+
+   // 200 tests random inputs.
+   for(U8 i = 0; i < 200; i++)
+   {
+      S64 a = randU64(); S64 b = randU64();
+      S64 rtn = AminusBS64(a,b);
+
+      // Use double to check for overrange. Double is 48bit vs 64bit so will miss a few numbers
+      // near the edge but OK for a test.
+      S64 chkOverflow(S64 a, S64 b) {
+         double diff = (double)a - (double)b;
+         return
+            diff >= (double)MAX_S64
+               ? MAX_S64
+               : (diff <= (double)MIN_S64
+                  ? MIN_S64
+                  : a-b ); }
+
+      S64 chk = chkOverflow(a,b);
+
+      if( chk != rtn )
+      {
+         printf("AminusBS64() failed #%d: expected %llxh + %llxh -> %llxh; got %llxh\r\n", i, a, b, chk, rtn);
+         TEST_ASSERT_TRUE(FALSE);
+      }
+   }
+}
+
+/* ------------------------------------ test_AplusBU64 ------------------------------------ */
+
+void test_AplusBU64(void)
+{
+   typedef struct {U64 a, b, rtn;} S_Tst;
+
+   S_Tst const tsts[] = {
+      {.a = 0,       .b = 0,        .rtn = 0},
+      {.a = 1,       .b = 2,        .rtn = 3},
+      {.a = 2,       .b = 1,        .rtn = 3},
+
+      // Corner cases
+      {.a = MAX_U64, .b = 0,        .rtn = MAX_U64},
+      {.a = 0,       .b = MAX_U64,  .rtn = MAX_U64},
+
+      // Overrange is clipped.
+      {.a = MAX_U64, .b = 1,        .rtn = MAX_U64},
+      {.a = 1,       .b = MAX_U64,  .rtn = MAX_U64},
+      {.a = MAX_S64, .b = MAX_U64,  .rtn = MAX_U64},
+
+      // Just inside overrange... is not cliped.
+      {.a = MAX_U64-2,  .b = 1,           .rtn = MAX_U64-1},
+      {.a = 1,          .b = MAX_U64-2,   .rtn = MAX_U64-1},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      U64 rtn = AplusBU64(t->a, t->b);
+
+      if(rtn != t->rtn)
+      {
+         printf("AplusBU64() #%d failed: expected %llxh + %llxh -> %llxh; got %llxh\r\n", i, t->a, t->b, t->rtn, rtn);
+         TEST_FAIL();
+      }
+   }
+
+   // 200 tests random inputs.
+   for(U8 i = 0; i < 200; i++)
+   {
+      U64 a = randU64(); U64 b = randU64();
+      U64 rtn = AplusBU64(a,b);
+
+      // Use double to check for overrange. Double is 48bit vs 64bit so will miss a few numbers
+      // near the edge but OK for a test.
+      U64 chkOverflow(U64 a, U64 b) {
+         double sum = (double)a + (double)b;
+         return
+            sum >= (double)MAX_U64
+               ? MAX_U64
+               : (sum <= (double)MIN_U64
+                  ? MIN_U64
+                  : a+b );
+
+      }
+
+      U64 chk = chkOverflow(a,b);
+
+      if( chk != rtn )
+      {
+         printf("AplusBU64() failed #%d: expected %llxh + %llxh -> %llxh; got %llxh\r\n", i, a, b, chk, rtn);
+         TEST_ASSERT_TRUE(FALSE);
+      }
+   }
+}
+
+/* ------------------------------------ test_AminusBU64 ------------------------------------ */
+
+void test_AminusBU64(void)
+{
+   typedef struct {U64 a, b, rtn;} S_Tst;
+
+   S_Tst const tsts[] = {
+      {.a = 0,       .b = 0,        .rtn = 0},
+      {.a = MAX_U64, .b = MAX_U64,  .rtn = 0},
+
+      {.a = 2,       .b = 1,        .rtn = 1},
+      {.a = MAX_U64, .b = 1,        .rtn = MAX_U64-1},
+      {.a = MAX_U64, .b = 0,        .rtn = MAX_U64},
+
+
+      // Overrange is clipped.
+      {.a = 0,       .b = MAX_U64,  .rtn = 0},
+      {.a = 1,       .b = 2,        .rtn = 0},
+   };
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      U64 rtn = AminusBU64(t->a, t->b);
+
+      if(rtn != t->rtn)
+      {
+         printf("AminusBU64() #%d failed: expected %llxh - %llxh -> %llxh; got %llxh\r\n", i, t->a, t->b, t->rtn, rtn);
+         TEST_FAIL();
+      }
+   }
+
+   // 200 tests random inputs.
+   for(U8 i = 0; i < 200; i++)
+   {
+      U64 a = randU64(); U64 b = randU64();
+      U64 rtn = AminusBU64(a,b);
+
+      U64 chk = b > a ? 0 : a-b;
+
+      if( chk != rtn )
+      {
+         printf("AminusBU64() failed #%d: expected %llxh - %llxh -> %llxh; got %llxh\r\n", i, a, b, chk, rtn);
+         TEST_ASSERT_TRUE(FALSE);
+      }
+   }
+}
+
+/* ----------------------------------------test_ClipU64 --------------------------------------- */
+
+void test_ClipU64(void)
+{
+    U8 c;
+    U64 n, l, u, ret, chk;
+
+    // If limits are crossed, returns the mean of upper and lower.
+    #define _GoodClip(n,l,u)            \
+        ((u) < (l))                     \
+            ? ((u >> 1) + (l >> 1) )    \
+            : ((n) < (l)                \
+                ? (l)                   \
+                : ((n) > (u)            \
+                    ? (u)               \
+                    : (n)))
+
+    for( c = 0; c < 20; c++ )
+    {
+        n = randU64(); l = randU64(), u = randU64();
+        ret =  ClipU64(n,l,u);
+        chk = _GoodClip(n,l,u);
+
+        if( ret != chk)
+        {
+            printf("ClipU64() failed n = %lld l = %lld u = %ld  expected %lld got %lld\r\n", n, l, u, chk, ret);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+
+    #undef _GoodClip
+
+    // Corner cases
+    TEST_ASSERT_TRUE( ClipU64(0,0,0) == 0 );
+    TEST_ASSERT_TRUE( ClipU64(MAX_U64, 0, MAX_U64) == MAX_U64 );
+}
+
+/* ------------------------------------ test_ClipS64 ------------------------------------- */
+
+void test_ClipS64(void)
+{
+    U8 c;
+    S64 n, l, u, ret, chk;
+
+    #define _GoodClip(n,l,u)            \
+        ((u) < (l))                     \
+            ? ((u >> 1) + (l >> 1) )    \
+            : ((n) < (l)                \
+                ? (l)                   \
+                : ((n) > (u)            \
+                    ? (u)               \
+                    : (n)))
+
+    for( c = 0; c < 20; c++ )
+    {
+        n = randS64(); l = randS64(), u = randS64();
+        ret =  ClipS64(n,l,u);
+        chk = _GoodClip(n,l,u);
+
+        if( ret != chk)
+        {
+            printf("ClipS64() failed n = %ld l = %ld u = %ld  expected %ld got %ld\r\n", n, l, u, chk, ret);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+
+    #undef _GoodClip
+
+    // Corner cases
+    TEST_ASSERT_TRUE( ClipS64(0,0,0) == 0 );
+    TEST_ASSERT_TRUE( ClipS64(MAX_S64, 0, MAX_S64) == MAX_S64 );
+    TEST_ASSERT_TRUE( ClipS64(MIN_S64, MIN_S64, 0) == MIN_S64 );
+}
 
 
 // ----------------------------------------- eof --------------------------------------------
