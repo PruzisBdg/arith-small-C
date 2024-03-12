@@ -10,6 +10,7 @@
 #define	ARITH_H
 
 #include "GenericTypeDefs.h"
+#include "libs_support.h"
 
 PUBLIC S16  ClipS32toS16(S32 n);
 PUBLIC U16  ClipS32toU16(S32 n);
@@ -271,6 +272,51 @@ PUBLIC U8 BitLogU16(U16 n);
 PUBLIC U16 BitLogU32(U32 n);
 
 PUBLIC S16 VecU8_Sum(U8 const *v, U8 cnt);
+
+/* ----------------------------------- MSP430F2xx, for now -----------------------------------------
+
+   Right-shifts.
+
+   MSP430's have no Barrel Shifter and so normalising arithmetic with right-shifts is slow.
+   But MSP430F2xx and up do have a hardware multiplier; with this it's quicker to multiply up
+   then take the High Word.
+*/
+   #if _TOOL_IS == TOOL_CC430
+
+#include "msp430x24x.h"             // Basic port and peripheral defines for MSP430
+
+// ---- For S16
+static inline S16 AmulB_S16rs16(S16 a, S16 b) {
+   MPYS = a;         // 1st operand, sined multiply
+   OP2 = b;          // Executes when 2nd is loaded.
+   return RESHI; }   // Return high word.
+
+/* To 'rs', multiply by 1 << (16-'rs'). Result in High Word.
+
+   If 'rs' is constant then 'inline' reduces '1 << (16-rs)' to a constant (no shift-loop)
+   and uses the MPY unit directly.  Execution is approx. 10mc's; a shift loop is 15-28mcs
+   depending.
+*/
+static inline S16 RShiftS16(S16 n, U8 rs) {
+   return AmulB_S16rs16(n, 1 << (16-rs)); }
+
+
+// ---- For U16
+static inline S16 AmulB_U16rs16(U16 a, U16 b) {
+   MPYS = a;         // 1st operand, unsigned multiply
+   OP2 = b;          // Executes when 2nd is loaded.
+   return RESHI; }   // Return high word.
+
+/* To 'rs', multiply by 1 << (16-'rs'). Result in High Word.
+
+   If 'rs' is constant then 'inline' reduces '1 << (16-rs)' to a constant (no shift-loop)
+   and uses the MPY unit directly.  Execution is approx. 10mc's; a shift loop is 15-28mcs
+   depending.
+*/
+static inline U16 RShiftU16(U16 n, U8 rs) {
+   return AmulB_U16rs16(n, 1U << (16-rs)); }
+
+   #endif // _TOOL_IS == TOOL_CC430
 
 #endif	/* ARITH_H */
 

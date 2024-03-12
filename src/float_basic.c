@@ -11,18 +11,28 @@
 
 /* ---------------------------------- MinFloat ------------------------------- */
 
-PUBLIC float MinFloat(float a, float b) { return a < b ? a : b; }
+PUBLIC float MinFloat(float a, float b) {
+   return
+      (isnan(a) || isnan(b))
+         ? NAN
+         : (a < b ? a : b); }
 
 /* ---------------------------------- MaxFloat ------------------------------- */
 
-PUBLIC float MaxFloat(float a, float b) { return a > b ? a : b; }
+PUBLIC float MaxFloat(float a, float b) {
+   return
+      (isnan(a) || isnan(b))
+         ? NAN
+         : (a > b ? a : b); }
 
 
 /* ---------------------------------- ClipFloatToLong ------------------------------- */
 
 PUBLIC S32 ClipFloatToLong(float f)
 {
-   if( f < (float)MIN_S32 )
+   if(isnan(f))
+      return 0;
+   else if( f < (float)MIN_S32 )
       return MIN_S32;
    else if( f > (float)MAX_S32 )
       return MAX_S32;
@@ -34,7 +44,9 @@ PUBLIC S32 ClipFloatToLong(float f)
 
 PUBLIC U32 ClipFloatToU32(float f)
 {
-   if( f <= (float)0.0 )
+   if(isnan(f))
+      return 0;
+   else if( f <= (float)0.0 )
       return 0;
    else if( f >= (float)MAX_U32 )
       return MAX_U32;
@@ -46,7 +58,9 @@ PUBLIC U32 ClipFloatToU32(float f)
 
 PUBLIC U16 ClipFloatToU16(float f)
 {
-   if( f <= (float)0.0 )
+   if(isnan(f))
+      return 0;
+   else if( f <= (float)0.0 )
       return 0;
    else if( f >= (float)MAX_U16 )
       return MAX_U16;
@@ -58,7 +72,9 @@ PUBLIC U16 ClipFloatToU16(float f)
 
 PUBLIC S64 ClipDoubleToS64(double d)
 {
-   if( d <= (float)MIN_S64 )
+   if(isnan(d))
+      return 0;
+   else if( d <= (float)MIN_S64 )
       return MIN_S64;
    else if( d >= (float)MAX_S64 )
       return MAX_S64;
@@ -75,8 +91,13 @@ PUBLIC S16 ClipFloatToInt(float f)
 
 /* ----------------------------------- InsideEq_Float --------------------------------- */
 
-PUBLIC BOOL InsideEq_Float(float n, float min, float max)
-    { return n >= min && n <= max; }
+PUBLIC BOOL InsideEq_Float(float n, float min, float max) {
+   // Note if any of the 3 args is NaN the compositie must return Nan.
+   // Don't allow evaluation to short-cicuit.
+   return
+      isnan(n) || isnan(min) || isnan(max)
+         ? NAN
+         : (n >= min && n <= max); }
 
 
 
@@ -224,15 +245,22 @@ PUBLIC S16 DecSizeDouble(double f)
 --------------------------------------------------------------------------------------*/
 
 PUBLIC BOOL FloatsEqual(float a, float b, float epsilon) {
-   float absA = fabs(a);
-   float absB = fabs(b);
-   float diff = fabs(a - b);
 
-   if (a == b) {                                               // shortcut, handles infinities
-      return TRUE; }
-   else if (a == 0 || b == 0 || (absA + absB < FLT_MIN )) {    // Zero, or close to
-      return diff < (epsilon * FLT_MIN ); }                    // use and absolute error
-   else {
-      return diff / MIN((absA + absB), FLT_MAX ) < epsilon; }  // else relative error less-then
+   // If any arg is NAN, must return false. DOn't allow short circuit to return something else.
+   if(isnan(a) || isnan(b) || isnan(epsilon)) {
+      return FALSE; }
+   else
+   {
+      float absA = fabs(a);
+      float absB = fabs(b);
+      float diff = fabs(a - b);
+
+      if (a == b) {                                               // shortcut, handles infinities
+         return TRUE; }
+      else if (a == 0 || b == 0 || (absA + absB < FLT_MIN )) {    // Zero, or close to
+         return diff < (epsilon * FLT_MIN ); }                    // use and absolute error
+      else {
+         return diff / MIN((absA + absB), FLT_MAX ) < epsilon; }  // else relative error less-then
+   }
 }
 // ------------------------------------ eof ------------------------------------------------------

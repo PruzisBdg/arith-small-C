@@ -22,6 +22,38 @@ void setUp(void) {
 void tearDown(void) {
 }
 
+/* ------------------------------------- test_MinFloat -------------------------------------- */
+
+void test_MinFloat(void) {
+   TEST_ASSERT_EQUAL_FLOAT(0.0,     MinFloat(0.0, 0.0));
+   TEST_ASSERT_EQUAL_FLOAT(0.0,     MinFloat(1.1, 0.0));
+   TEST_ASSERT_EQUAL_FLOAT(0.0,     MinFloat(0.0, 1.23));
+   TEST_ASSERT_EQUAL_FLOAT(-0.22,   MinFloat(-0.22, 0.0));
+   TEST_ASSERT_EQUAL_FLOAT(-4.7,    MinFloat(-0.22, -4.7));
+
+   // Invalid comparision always returns NAN
+   TEST_ASSERT_EQUAL_FLOAT(NAN,    MinFloat(NAN, -4.5));
+   TEST_ASSERT_EQUAL_FLOAT(NAN,    MinFloat(-3, NAN));
+   TEST_ASSERT_EQUAL_FLOAT(NAN,    MinFloat(NAN, NAN));
+}
+
+
+/* ------------------------------------- test_MaxFloat -------------------------------------- */
+
+void test_MaxFloat(void) {
+   TEST_ASSERT_EQUAL_FLOAT(0.0,     MaxFloat(0.0, 0.0));
+   TEST_ASSERT_EQUAL_FLOAT(1.1,     MaxFloat(1.1, 0.0));
+   TEST_ASSERT_EQUAL_FLOAT(1.23,     MaxFloat(0.0, 1.23));
+   TEST_ASSERT_EQUAL_FLOAT(-0.0,   MaxFloat(-0.22, 0.0));
+   TEST_ASSERT_EQUAL_FLOAT(-0.22,    MaxFloat(-0.22, -4.7));
+
+   // Invalid comparision always returns NAN
+   TEST_ASSERT_EQUAL_FLOAT(NAN,    MaxFloat(NAN, -4.5));
+   TEST_ASSERT_EQUAL_FLOAT(NAN,    MaxFloat(-3, NAN));
+   TEST_ASSERT_EQUAL_FLOAT(NAN,    MaxFloat(NAN, NAN));
+}
+
+
 /* ------------------------------------- test_FloatsEqual -------------------------------------- */
 
 void test_FloatsEqual(void)
