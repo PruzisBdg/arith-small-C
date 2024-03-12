@@ -26,29 +26,44 @@ PUBLIC float MaxFloat(float a, float b) {
          : (a > b ? a : b); }
 
 
-/* ---------------------------------- ClipFloatToLong ------------------------------- */
+/* ---------------------------------- ClipFloatToLong -------------------------------
 
+   Corners/transitions
+
+      (S32)(float)MAX_S32 -> MAX_S32 and...
+      (S32)(float)MIN_S32 -> MIN_S32.
+
+      The 32bit number is truncated to a 24bit mantissa, so C does not strictly define the
+      exact output. But avoid sign-reversal always
+
+      NaN -> 0.
+
+      Per Standard, result is undefined. Choose zero.
+*/
 PUBLIC S32 ClipFloatToLong(float f)
 {
    if(isnan(f))
       return 0;
-   else if( f < (float)MIN_S32 )
+   // Next 2 clauses use '<=' and ''>=' to capture MIN_S32 and MAX_S32 and avoid sign-reversal trying to (S32)cast.
+   else if( f <= (float)MIN_S32 || f == FLT_MIN )
       return MIN_S32;
-   else if( f > (float)MAX_S32 )
+   else if( f >= (float)MAX_S32 || f == FLT_MAX)
       return MAX_S32;
    else
       return (S32)f;
 }
 
-/* ---------------------------------- ClipFloatToU32 ------------------------------- */
+/* ---------------------------------- ClipFloatToU32 -------------------------------
 
+   Same logic as ClipFloatToLong()
+*/
 PUBLIC U32 ClipFloatToU32(float f)
 {
    if(isnan(f))
       return 0;
-   else if( f <= (float)0.0 )
+   else if( f <= 0.0F || f == FLT_MIN )       // Use 'F' to avoid promotion to double (in emabedded targets)
       return 0;
-   else if( f >= (float)MAX_U32 )
+   else if( f >= (float)MAX_U32 || f == FLT_MAX )
       return MAX_U32;
    else
       return (U32)f;
@@ -60,9 +75,9 @@ PUBLIC U16 ClipFloatToU16(float f)
 {
    if(isnan(f))
       return 0;
-   else if( f <= (float)0.0 )
+   else if( f <= 0.0F || f == FLT_MIN )
       return 0;
-   else if( f >= (float)MAX_U16 )
+   else if( f >= (float)MAX_U16 || f == FLT_MAX )
       return MAX_U16;
    else
       return (U16)f;
@@ -74,9 +89,9 @@ PUBLIC S64 ClipDoubleToS64(double d)
 {
    if(isnan(d))
       return 0;
-   else if( d <= (float)MIN_S64 )
+   else if( d <= (double)MIN_S64 || d == DBL_MIN )
       return MIN_S64;
-   else if( d >= (float)MAX_S64 )
+   else if( d >= (double)MAX_S64 || d == DBL_MAX )
       return MAX_S64;
    else
       return (S64)d;
@@ -92,7 +107,7 @@ PUBLIC S16 ClipFloatToInt(float f)
 /* ----------------------------------- InsideEq_Float --------------------------------- */
 
 PUBLIC BOOL InsideEq_Float(float n, float min, float max) {
-   // Note if any of the 3 args is NaN the compositie must return Nan.
+   // Note if any of the 3 args is NaN the composite must return Nan.
    // Don't allow evaluation to short-cicuit.
    return
       isnan(n) || isnan(min) || isnan(max)
@@ -185,13 +200,20 @@ PUBLIC float GetPwr10Float(S16 exp)
 |
 |  Returns 'n' mod 'd'.
 |
+|  'mod' is to the nearest, above or below. E.g  1.3 mod 1.0 = 0.3 but 1.7 mod 1.0
+|  is also 0.3 because 2.0 - 1.7 = 0.3.
+|
 --------------------------------------------------------------------------------------*/
 
 PUBLIC float Mod_Float(float n, float d)
 {
     float m;
 
-    if(d == 0.0f)
+    if(isnan(n) || isnan(d))
+    {
+       return NAN;
+    }
+    else if(d == 0.0f)
     {
         return 0.0;
     }
@@ -216,24 +238,52 @@ PUBLIC float Mod_Float(float n, float d)
 
 PUBLIC S16 DecSizeFloat(float f)
 {
-   int  exp2N;    // exponent as 2^N
+   if(f == 0.0f)
+   {
+      return MIN_S16;
+   }
+   else if(isnan(f))
+   {
+      return 0;
+   }
+   else
+   {
+      int  exp2N;    // exponent as 2^N
 
-   // Hack the float, returns the exponent.
-   frexpf(f, &exp2N);
+      // Hack the float, returns the exponent.
+      frexpf(f, &exp2N);
 
-   // Get the corresponding power of 10, ( 10 = 2^3.3219.... )
-   return (S16)floorf( exp2N/3.32192809489f);
+      // Get the corresponding power of 10, ( 10 = 2^3.3219.... )
+      S16 s = (S16)floorf( exp2N/3.32192809489f);
+
+      // With 'FLT_MIN' above evaluates to 10^-38. Clip to 10^-37, the true minimum float exponent.
+      return MaxS16(s, FLT_MIN_10_EXP);
+   }
 }
 
-PUBLIC S16 DecSizeDouble(double f)
+PUBLIC S16 DecSizeDouble(double d)
 {
-   int  exp2N;    // exponent as 2^N
+   if(d == 0.0)
+   {
+      return MIN_S16;
+   }
+   else if(isnan(d))
+   {
+      return 0;
+   }
+   else
+   {
+      int  exp2N;    // exponent as 2^N
 
-   // Hack the double, returns the exponent.
-   frexp(f, &exp2N);
+      // Hack the double, returns the exponent.
+      frexp(d, &exp2N);
 
-   // Get the corresponding power of 10, ( 10 = 2^3.3219.... )
-   return (S16)floorf( exp2N/3.32192809489f);
+      // Get the corresponding power of 10, ( 10 = 2^3.3219.... )
+      S16 s = (S16)floorf(exp2N/3.32192809489);
+
+      // With 'DBL_MIN' above evaluates to 10^-308. Clip to 10^-307, the true minimum double exponent.
+      return MaxS16(s, DBL_MIN_10_EXP);
+   }
 }
 
 /*-----------------------------------------------------------------------------------
