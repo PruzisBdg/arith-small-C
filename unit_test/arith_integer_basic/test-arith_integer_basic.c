@@ -842,6 +842,27 @@ void test_AplusBU8(void)
     TEST_ASSERT_TRUE( AplusBU8(MAX_U8,MAX_U8) == MAX_U8);
 }
 
+/* ------------------------------ test_U8plusS8toU8 -------------------------------------- */
+
+void test_U8plusS8toU8(void)
+{
+    TEST_ASSERT_TRUE( U8plusS8toU8(0,0) == 0);
+    TEST_ASSERT_TRUE( U8plusS8toU8(2,3) == 5);
+    TEST_ASSERT_TRUE( U8plusS8toU8(3,-2) == 1);
+    TEST_ASSERT_TRUE( U8plusS8toU8(7,12) == 19);
+
+    TEST_ASSERT_TRUE( U8plusS8toU8(MAX_U8,0) == MAX_U8);
+    TEST_ASSERT_TRUE( U8plusS8toU8(MAX_U8,1) == MAX_U8);
+    TEST_ASSERT_TRUE( U8plusS8toU8(MAX_U8,-1) == MAX_U8-1);
+    TEST_ASSERT_TRUE( U8plusS8toU8(MAX_U8,MAX_S8) == MAX_U8);
+
+    TEST_ASSERT_TRUE( U8plusS8toU8(0,MAX_S8) == MAX_S8);
+    TEST_ASSERT_TRUE( U8plusS8toU8(0,MIN_S8) == 0);
+    TEST_ASSERT_TRUE( U8plusS8toU8(MAX_S8,MIN_S8) == 0);
+
+    TEST_ASSERT_TRUE( U8plusS8toU8(MAX_U8,1) == MAX_U8);
+}
+
 /* ------------------------------------ test_AplusBS16 ------------------------------------- */
 
 void test_AplusBS16(void)
