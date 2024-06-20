@@ -66,6 +66,7 @@ PUBLIC U64  AplusBU64(U64 a, U64 b);
 PUBLIC U16  U16plusS16_toU16(U16 a, S16 b);
 PUBLIC U32  U32plusS16(U32 a, S16 b);
 PUBLIC U32  U32plusS32_toU32(U32 a, S32 b);
+PUBLIC U8   U8plusS8toU8(U8 a, S8 b);
 
 PUBLIC U8 RemU8U8(U8 n, U8 mod);
 
@@ -115,6 +116,7 @@ PUBLIC U8   MixU8(U8 a, U8 b, U8 m);
 PUBLIC U16  MixU16(U16 a, U16 b, U8 m);
 
 PUBLIC S16  Mean2_S16(S16 a, S16 b);
+PUBLIC U16  Mean2_U16(U16 a, U16 b);
 PUBLIC U8   Mean2_U8(U8 a, U8 b);
 PUBLIC U8   Span3_U8(U8 a, U8 b, U8 c);
 PUBLIC U8   Span4_U8(U8 a, U8 b, U8 c, U8 d);
@@ -133,6 +135,7 @@ PUBLIC S16  DeadbandS16(S16 n, S16 lo, S16 hi);
 
 PUBLIC U16  SqU8(U8 a);
 PUBLIC U32  SqU16(U16 n);
+PUBLIC S16  SqS8(S8 a);
 PUBLIC S32  SqS16(S16 n);
 
 PUBLIC U8   RootSumSqU8(U8 a, U8 b);

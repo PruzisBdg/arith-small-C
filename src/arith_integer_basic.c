@@ -257,6 +257,9 @@ PUBLIC S16 DeadbandS16(S16 n, S16 lo, S16 hi) {
 PUBLIC S16 Mean2_S16(S16 a, S16 b)
     { return (a + (S32)b) / 2; }
 
+PUBLIC U16 Mean2_U16(U16 a, U16 b)
+    { return (a + (U32)b) / 2; }
+
 PUBLIC U8 Mean2_U8(U8 a, U8 b)
     { return (a + (S16)b) / 2; }
 
@@ -358,6 +361,13 @@ PUBLIC U8 AminusB_PtrToU8(U8 const *a, U8 const *b) {
 PUBLIC U8 AplusBU8(U8 a, U8 b)
     { return a + (U16)b > MAX_U8 ? MAX_U8 : a + b; }
 
+PUBLIC U8 U8plusS8toU8(U8 a, S8 b)
+    { return a + (S16)b > MAX_U8
+          ? MAX_U8
+          : (a + (S16)b < 0
+                ? 0
+                : a + b); }
+
 PUBLIC U8 Span3_U8(U8 a, U8 b, U8 c)
 {
     return
@@ -396,6 +406,8 @@ PUBLIC U8 Span4_U8(U8 a, U8 b, U8 c, U8 d)
 PUBLIC U16 SqU8(U8 a) { return (U16)a * a; }
 
 PUBLIC U32 SqU16(U16 n) { return (U32)n * n; }
+
+PUBLIC S16 SqS8(S8 a) { return (S16)a * a; }
 
 PUBLIC S32 SqS16(S16 n) { return (S32)n * n; }
 
