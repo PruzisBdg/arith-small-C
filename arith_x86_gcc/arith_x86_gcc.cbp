@@ -44,9 +44,11 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-D__TOOL_IS_GCC_X86" />
 			<Add directory="../private" />
 			<Add directory="../public" />
-			<Add directory="../GenericTypes" />
+			<Add directory="../../libs_common/public" />
+			<Add directory="../../libs_common/libs_only" />
 		</Compiler>
 		<Unit filename="../../unity_tdd/tdd_common.c">
 			<Option compilerVar="CC" />
@@ -61,6 +63,7 @@
 		<Unit filename="../../unity_tdd/tdd_common_pre_build.mak">
 			<Option target="Test" />
 		</Unit>
+		<Unit filename="../private/libs_support.h" />
 		<Unit filename="../public/arith.h" />
 		<Unit filename="../src/arith_integer_basic.c">
 			<Option compilerVar="CC" />
@@ -88,12 +91,8 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="../unit_test/arith_common_build.mak">
-			<Option target="Test" />
-		</Unit>
-		<Unit filename="../unit_test/arith_common_pre.mak">
-			<Option target="Test" />
-		</Unit>
+		<Unit filename="../unit_test/arith_common_build.mak" />
+		<Unit filename="../unit_test/arith_common_pre.mak" />
 		<Unit filename="../unit_test/arith_integer_basic/arith_integer_basic.mak">
 			<Option target="Test" />
 		</Unit>

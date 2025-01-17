@@ -9,7 +9,7 @@
 #ifndef ARITH_H
 #define	ARITH_H
 
-#include "GenericTypeDefs.h"
+#include "spj_stdint.h"
 #include "libs_support.h"
 
 PUBLIC S16  ClipS32toS16(S32 n);
@@ -284,6 +284,7 @@ PUBLIC S16 VecU8_Sum(U8 const *v, U8 cnt);
    But MSP430F2xx and up do have a hardware multiplier; with this it's quicker to multiply up
    then take the High Word.
 */
+#ifdef _TOOL_IS
    #if _TOOL_IS == TOOL_CC430
 
 #include "msp430x24x.h"             // Basic port and peripheral defines for MSP430
@@ -320,6 +321,9 @@ static inline U16 RShiftU16(U16 n, U8 rs) {
    return AmulB_U16rs16(n, 1U << (16-rs)); }
 
    #endif // _TOOL_IS == TOOL_CC430
+#else
+   #warning "Define _TOOL_IS for CC430 for fast right-shift 16"
+#endif // #ifdef _TOOL_IS
 
 #endif	/* ARITH_H */
 

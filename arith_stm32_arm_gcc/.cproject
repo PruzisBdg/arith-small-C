@@ -121,7 +121,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244" moduleId="org.eclipse.cdt.core.settings" name="CortexM0p">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244" moduleId="org.eclipse.cdt.core.settings" name="Cortexm0p">
 				<externalSettings>
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/arith_stm32_arm"/>
@@ -138,7 +138,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}_cortexm0p" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244" name="CortexM0p" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug">
+				<configuration artifactExtension="a" artifactName="${ProjName}_cortexm0p" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244" name="Cortexm0p" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug">
 					<folderInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244." name="/" resourcePath="">
 						<toolChain id="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.lib.debug.1133102247" name="MCU ARM GCC" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.lib.debug">
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.1020670432" name="MCU" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" useByScannerDiscovery="true" value="STM32C011F6Ux" valueType="string"/>
@@ -188,22 +188,25 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="arith_stm32_cortexm0p.com.st.stm32cube.ide.mcu.gnu.managedbuild.projecttype.lib.1674897880" name="Static Library" projectType="com.st.stm32cube.ide.mcu.gnu.managedbuild.projecttype.lib"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.757787015;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.757787015.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.785263818;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.223392880">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.773162742;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.773162742.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.480670857;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1563096908">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1267188489;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.677480242">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.26212581;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.26212581.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.746818799;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1715084761">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.773162742;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.773162742.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.480670857;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1563096908">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.757787015;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.release.757787015.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.785263818;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.223392880">
+		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.lib.debug.1914421516.29537244.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.762225239;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.2010127309">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

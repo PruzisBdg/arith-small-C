@@ -4,7 +4,7 @@
 |
 --------------------------------------------------------------------- */
 
-#include "GenericTypeDefs.h"
+#include "spj_stdint.h"
 #include "arith.h"
 
 
