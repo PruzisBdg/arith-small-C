@@ -4,7 +4,7 @@
 |
 --------------------------------------------------------------------- */
 
-#include "GenericTypeDefs.h"
+#include "spj_stdint.h"
 #include "arith.h"
 
 /* ----------------------------- SqrtU16 ---------------------------------------
@@ -30,7 +30,7 @@ PUBLIC U8 SqrtU16(U16 n)
          root = u > n
                     ? root - step
                     : root + step;
-         
+
          u = root * (U16)root;
          }
 
