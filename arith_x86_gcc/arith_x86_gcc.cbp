@@ -50,6 +50,7 @@
 			<Add directory="../../libs_common/public" />
 			<Add directory="../../libs_common/libs_only" />
 		</Compiler>
+		<Unit filename="../../libs_common/public/spj_stdint.h" />
 		<Unit filename="../../unity_tdd/tdd_common.c">
 			<Option compilerVar="CC" />
 			<Option target="Test" />
