@@ -301,9 +301,9 @@ PUBLIC BOOL FloatsEqual(float a, float b, float epsilon) {
       return FALSE; }
    else
    {
-      float absA = fabs(a);
-      float absB = fabs(b);
-      float diff = fabs(a - b);
+      float absA = fabsf(a);
+      float absB = fabsf(b);
+      float diff = fabsf(a - b);
 
       if (a == b) {                                               // shortcut, handles infinities
          return TRUE; }
