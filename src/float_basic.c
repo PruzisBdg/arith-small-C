@@ -107,11 +107,10 @@ PUBLIC S16 ClipFloatToInt(float f)
 /* ----------------------------------- InsideEq_Float --------------------------------- */
 
 PUBLIC BOOL InsideEq_Float(float n, float min, float max) {
-   // Note if any of the 3 args is NaN the composite must return Nan.
-   // Don't allow evaluation to short-cicuit.
+   // Note if any of the 3 args is NaN the composite must return false.
    return
       isnan(n) || isnan(min) || isnan(max)
-         ? NAN
+         ? false
          : (n >= min && n <= max); }
 
 
@@ -125,8 +124,8 @@ PUBLIC BOOL InsideEq_Float(float n, float min, float max) {
 |  or doubles.
 |
 |  The table lookup method avoids using pow() (<math> power function) which is
-|  slow. The function walks down the table an converges on 'exp' in at most a
-|  few cycles.
+|  slow. The function walks down the table and converges on 'exp' in no more FP multiplies
+|  than the length of the table itself.
 |
 --------------------------------------------------------------------------------------*/
 
@@ -138,6 +137,7 @@ typedef struct
 
 PRIVATE S_Pwr10FloatMapping const Pwr10FloatTbl[] =
 {
+   {32,  1E32 },
    {16,  1E16 },
    {8,   1E8  },
    {4,   1E4  },
@@ -153,7 +153,7 @@ PUBLIC float GetPwr10Float(S16 exp)
 
    if( exp == 0 )                            // 10^0?
    {
-      return 1.0;                            // equals 1.0
+      return 1.0F;                           // equals 1.0
    }
    else if(exp > FLT_MAX_10_EXP)             // Too large?
    {
@@ -176,7 +176,7 @@ PUBLIC float GetPwr10Float(S16 exp)
       else
          { negExp = 0; }
 
-      for( c = 0, f = 1.0; exp; c++)            // From 1.0, and from table bottom (largest numbers)
+      for( c = 0, f = 1.0F; exp; c++)           // From 1.0, and from table bottom (largest numbers)
       {
          while( exp >= Pwr10FloatTbl[c].exp )   // While remainder of exponent > this table entry
          {
@@ -187,11 +187,91 @@ PUBLIC float GetPwr10Float(S16 exp)
 
       // Return with 10^exp
       if( negExp )                              // Exponent was negative?
-         { return 1.0/f; }                      // then flip the table result
+         { return 1.0F/f; }                     // then flip the table result
       else
          { return f; }                          // else return result unchanged
    }
 }
+
+/*-----------------------------------------------------------------------------------
+|
+|  GetPwr10Double
+|
+|  Return 10^exp for 'exp', which may be anywhere in the legal range for doubles.
+|
+|  The table lookup method avoids using pow() (<math> power function) which is
+|  slow. The function walks down the table and converges on 'exp' in no FP multiplies
+|  than the length of the table itself.
+|
+--------------------------------------------------------------------------------------*/
+
+typedef struct
+{
+   S16   exp;        // an exponent
+   double num;        // 10^exp
+} S_Pwr10DoubleMapping;
+
+PRIVATE S_Pwr10DoubleMapping const Pwr10DoubleTbl[] =
+{
+   {256, 1E256 },
+   {128, 1E128 },
+   {64,  1E64  },
+   {32,  1E32  },
+   {16,  1E16  },
+   {8,   1E8   },
+   {4,   1E4   },
+   {2,   1E2   },
+   {1,   10.0  }
+};
+
+PUBLIC double GetPwr10Double(S16 exp)
+{
+   U8    c;
+   BIT   negExp;
+   double d;
+
+   if( exp == 0 )                            // 10^0?
+   {
+      return 1.0;                            // equals 1.0
+   }
+   else if(exp > DBL_MAX_10_EXP)             // Too large?
+   {
+      return DBL_MAX;                        // CLip to float max (which is not an exact power of 10)
+   }
+   else if(exp < DBL_MIN_10_EXP)             // Likewise, too small?
+   {
+      return DBL_MIN;
+   }
+   else                                      // else must use Pwr10DoubleTbl[]
+   {
+      /* Table is for positive exponents. Handle negative ones by flipping the
+         exponent and then returning reciprocal of result from table.
+      */
+      if( exp < 0 )                          // Negative exponent?
+      {
+         negExp = 1;                         // then mark that is so
+         exp = -exp;                         // and flip it.
+      }
+      else
+         { negExp = 0; }
+
+      for( c = 0, d = 1.0; exp; c++)            // From 1.0, and from table bottom (largest numbers)
+      {
+         while( exp >= Pwr10DoubleTbl[c].exp )   // While remainder of exponent > this table entry
+         {
+            d *= Pwr10DoubleTbl[c].num;          // then multiply 'f' by tables 10^exp
+            exp -= Pwr10DoubleTbl[c].exp;        // and consume the exponent
+         }                                      // and on to try next (smaller) table entry
+      }                                         // continue until 'exp' has been eaten
+
+      // Return with 10^exp
+      if( negExp )                              // Exponent was negative?
+         { return 1.0/d; }                      // then flip the table result
+      else
+         { return d; }                          // else return result unchanged
+   }
+}
+
 
 
 /*-----------------------------------------------------------------------------------

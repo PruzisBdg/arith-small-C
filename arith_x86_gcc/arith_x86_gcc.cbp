@@ -44,6 +44,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c99" />
 			<Add option="-D__TOOL_IS_GCC_X86" />
 			<Add directory="../private" />
 			<Add directory="../public" />

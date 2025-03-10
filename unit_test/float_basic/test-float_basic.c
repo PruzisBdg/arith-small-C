@@ -253,16 +253,84 @@ void test_GetPwr10Float(void)
          { .exp = FLT_MIN_10_EXP-1,    .res = FLT_MIN },
       };
 
+   bool fail = false;
+
    for(U8 i = 0; i < RECORDS_IN(tsts); i++)
    {
       S_Tst const *t = &tsts[i];
 
-      float res = GetPwr10Float(t->exp);
+      float got = GetPwr10Float(t->exp);
+      float err = t->res - got;
 
-      C8 b0[100];
-      sprintf(b0, "tst #%d: 10^%d -> %.3e", i, t->exp, res);
-      TEST_ASSERT_EQUAL_FLOAT_MESSAGE( t->res, GetPwr10Float(t->exp), b0);
+      #define _MaxRelErr (1.5E-7)
+
+      if(fabs(err / t->res) > _MaxRelErr)
+      {
+         printf("tst #%d: %d -> %.3e err %.4e relerr %.3e (limit +/-1E-7)\r\n", i, t->exp, got, err, err/t->res);
+         fail = true;
+      }
+
    }
+   if(fail == true) {
+      TEST_FAIL();  }
+
+   #undef _MaxRelErr
+}
+
+
+/* ------------------------------------- test_GetPwr10Double ------------------------------------- */
+
+void test_GetPwr10Double(void)
+{
+   typedef struct { S16 exp; double res; } S_Tst;
+
+      S_Tst const tsts[] = {
+         // 10^0 -> 1.0
+         { .exp = 0,    .res = 1.0 },
+
+         // Some other positive and negative indices.
+         { .exp = 1,    .res = 10.0    },
+         { .exp = -1,   .res = 0.1     },
+         { .exp = 3,    .res = 1E3     },
+         { .exp = 15,   .res = 1E15    },
+         { .exp = 23,   .res = 1E23    },
+         { .exp = -17,  .res = 1E-17   },
+         { .exp = -30,  .res = 1E-30   },
+         { .exp = 140,  .res = 1E140   },
+         { .exp = -270, .res = 1E-270  },
+
+         // 10^38, 10^-37
+         { .exp = DBL_MAX_10_EXP,    .res = XCAT(1.0E, DBL_MAX_10_EXP) },
+         { .exp = DBL_MIN_10_EXP,    .res = 1.0E-307 },
+
+         // Overrange exponents are clipped to float min/max.
+         { .exp = DBL_MAX_10_EXP+1,    .res = DBL_MAX },
+         { .exp = DBL_MIN_10_EXP-1,    .res = DBL_MIN },
+      };
+
+   bool fail = false;
+
+   for(U8 i = 0; i < RECORDS_IN(tsts); i++)
+   {
+      S_Tst const *t = &tsts[i];
+
+      double got = GetPwr10Double(t->exp);
+      double err = t->res - got;
+
+      #define _MaxRelErr (1E-15)
+
+      if(fabs(err / t->res) > _MaxRelErr)
+      {
+         printf("tst #%d: %d -> %.3e err %.4e relerr %.3e (limit +/-1E-15)\r\n", i, t->exp, got, err, err/t->res);
+         fail = true;
+      }
+   }
+
+   if(fail == true) {
+      TEST_FAIL();  }
+
+   #undef _MaxRelErr
+
 }
 
 

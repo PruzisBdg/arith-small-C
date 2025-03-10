@@ -348,13 +348,13 @@ PUBLIC S16 AminusBU16ToS16(U16 a, U16 b)
 PUBLIC S16 AminusBS16(S16 a, S16 b)
     { return ClipS32toS16((S32)a - (S32)b); }
 
-PUBLIC U8 AminusB_PtrToU8(U8 const *a, U8 const *b) {
+PUBLIC U8 PtrDiff_toU8(void const *a, void const *b) {
    return
-      *a <= *b
+      a <= b
          ? 0
-         : ( (*a - *b) > 0xFF
+         : ( (a - b) > 0xFF
             ? 0xFF
-            : *a - *b); }
+            : a - b); }
 
 
 

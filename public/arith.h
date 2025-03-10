@@ -86,7 +86,7 @@ PUBLIC U32  AminusBS32toU32(S32 a, S32 b);
 PUBLIC S16  AminusBS16(S16 a, S16 b);
 PUBLIC S16  AminusBU16ToS16(U16 a, U16 b);
 #define _AminusB_unsigned(a,b)  (a > b ? a - b : 0)
-PUBLIC U8 AminusB_PtrToU8(U8 const *a, U8 const *b);
+PUBLIC U8 PtrDiff_toU8(void const *a, void const *b);
 
 PUBLIC BIT DecrU8_NowZero(U8 * a);
 PUBLIC BIT DecrU8_Was1_NowZero(U8 * a);
@@ -164,6 +164,7 @@ PUBLIC S16 LinterpFromS16Tbl_naked(S16 const *tbl, S16 x);
 #define _LinterpTblS16_Step  256
 
 PUBLIC float GetPwr10Float(S16 exp);
+PUBLIC double GetPwr10Double(S16 exp);
 PUBLIC S32   ClipFloatToLong(float f);
 PUBLIC U32   ClipFloatToU32(float f);
 PUBLIC U16   ClipFloatToU16(float f);
