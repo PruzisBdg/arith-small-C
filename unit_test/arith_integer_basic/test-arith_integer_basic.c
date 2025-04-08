@@ -2234,6 +2234,47 @@ void test_Median3_U8(void)
     }
 }
 
+/* ------------------------------- test_Median3_U16 ------------------------------------- */
+
+typedef struct {U16 a, b, c, res;} S_Median3_U16_Chk;
+
+PRIVATE S_Median3_U16_Chk const median3_U16_Chks[] = {
+    {1,2,3, 2},
+    {2,3,1, 2},
+    {3,1,2, 2},
+    {3,2,1, 2},
+    {1,3,2, 2},
+    {2,1,3, 2},
+
+    {3,2,2, 2},
+    {2,2,3, 2},
+    {2,3,2, 2},
+
+    {3,3,3, 3},
+
+    {0,0,0, 0},
+    {MAX_U16,MAX_U16,MAX_U16, MAX_U16},
+    {MAX_U16,0,0, 0},
+};
+
+void test_Median3_U16(void)
+{
+    U8 i;
+    U16 res;
+
+    for( i = 0; i < RECORDS_IN(median3_U16_Chks); i++ )
+    {
+        res = Median3_U16(median3_U16_Chks[i].a, median3_U16_Chks[i].b, median3_U16_Chks[i].c );
+
+        if( res != median3_U16_Chks[i].res )
+        {
+            printf("Median3_U16() failed: %u %u %u -> expected %u got %u\r\n",
+                median3_U16_Chks[i].a, median3_U16_Chks[i].b, median3_U16_Chks[i].c, median3_U16_Chks[i].res, res);
+            TEST_ASSERT_TRUE(FALSE);
+        }
+    }
+}
+
 /* ------------------------------- test_Span3_U8 ------------------------------------- */
 
 typedef struct {U8 a, b, c, res; } S_Span3_U8_Chk;

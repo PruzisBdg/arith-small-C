@@ -110,7 +110,7 @@ PUBLIC U16 MaxU16(U16 a, U16 b)
 PUBLIC U8 MinU8(U8 a, U8 b)
     { return a < b ? a : b; }
 
-PUBLIC U8 MaxU8(U8 a, U8 b)
+__attribute__((weak)) PUBLIC U8 MaxU8(U8 a, U8 b)
     { return a > b ? a : b; }
 
 PUBLIC U32 MinU32(U32 a, U32 b)
@@ -167,7 +167,7 @@ PUBLIC S32 AplusBS32(S32 a, S32 b)
 PUBLIC BOOL SignEqualsS16(S16 a, S16 b)
     { return _SignEqualsS16(a,b); }
 
-PUBLIC S32 MulS16(S16 a, S16 b) { return b * (S32)a; }
+__attribute__((weak)) PUBLIC S32 MulS16(S16 a, S16 b) { return b * (S32)a; }
 
 PUBLIC S16 AmulBdivC_S16(S16 a, S16 b, S16 c)
 {
@@ -397,6 +397,17 @@ PUBLIC U8 Median3_U8(U8 a, U8 b, U8 c)
             : (b > c ? c : b));     // Uuurgh!!
 }
 
+PUBLIC U16 Median3_U16(U16 a, U16 b, U16 c)
+{
+    return a > b
+        ? (b > c
+            ? b
+            : (a > c ? c : a))
+        : (a > c
+            ? a
+            : (b > c ? c : b));     // Uuurgh!!
+}
+
 PUBLIC U8 Span4_U8(U8 a, U8 b, U8 c, U8 d)
 {
     return
@@ -409,7 +420,7 @@ PUBLIC U32 SqU16(U16 n) { return (U32)n * n; }
 
 PUBLIC S16 SqS8(S8 a) { return (S16)a * a; }
 
-PUBLIC S32 SqS16(S16 n) { return (S32)n * n; }
+__attribute__((weak)) PUBLIC S32 SqS16(S16 n) { return (S32)n * n; }
 
 PUBLIC U8 MixU8(U8 a, U8 b, U8 m)
     { return ( (MAX_U8-m)*(U16)a  +  m*(U16)b + (MAX_U8/2) + (a/2) + (b/2) + 1) >> 8; }
