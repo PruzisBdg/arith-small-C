@@ -127,6 +127,8 @@ PUBLIC U16  AbsDiffU16(U16 a, U16 b);
 PUBLIC U16  AbsDiffS16(S16 a, S16 b);
 PUBLIC U32  AbsDiffU32(U32 a, U32 b);
 PUBLIC U8   Median3_U8(U8 a, U8 b, U8 c);
+PUBLIC U16  Median3_U16(U16 a, U16 b, U16 c);
+
 
 PUBLIC U8   SqrtU16(U16 n);
 PUBLIC U16  SqrtU32(U32 n);
@@ -321,6 +323,8 @@ static inline S16 AmulB_U16rs16(U16 a, U16 b) {
 static inline U16 RShiftU16(U16 n, U8 rs) {
    return AmulB_U16rs16(n, 1U << (16-rs)); }
 
+   #else
+static inline U16 RShiftU16(U16 n, U8 rs) { return n >> rs; }
    #endif // _TOOL_IS == TOOL_CC430
 #else
    #warning "Define _TOOL_IS for CC430 for fast right-shift 16"
