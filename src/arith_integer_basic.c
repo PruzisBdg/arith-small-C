@@ -110,7 +110,7 @@ PUBLIC U16 MaxU16(U16 a, U16 b)
 PUBLIC U8 MinU8(U8 a, U8 b)
     { return a < b ? a : b; }
 
-__attribute__((weak)) PUBLIC U8 MaxU8(U8 a, U8 b)
+__attribute((weak)) PUBLIC U8 MaxU8(U8 a, U8 b)
     { return a > b ? a : b; }
 
 PUBLIC U32 MinU32(U32 a, U32 b)
