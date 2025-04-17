@@ -1176,16 +1176,16 @@ void test_AminusBU8(void)
     TEST_ASSERT_TRUE( AminusBU8(4,2) == 2);
 }
 
-/* ----------------------------- test_PtrDiff_toU8 ----------------------------------------- */
+/* ----------------------------- test_U8PtrDiff_toU8 ----------------------------------------- */
 
-void test_PtrDiff_toU8()
+void test_U8PtrDiff_toU8()
 {
     // Corner cases.
-    TEST_ASSERT_TRUE( PtrDiff_toU8((void const*)0x12345678,          (void const*)0x12345678) == 0);
-    TEST_ASSERT_TRUE( PtrDiff_toU8((void const*)(0x12345678+MAX_U8), (void const*)0x12345678) == MAX_U8);
-    TEST_ASSERT_TRUE( PtrDiff_toU8((void const*)(0x12345678+MAX_U8-1), (void const*)0x12345678 ) == MAX_U8-1);
-    TEST_ASSERT_TRUE( PtrDiff_toU8(NULL,                             (void const*)0x12345678) == 0);
-    TEST_ASSERT_TRUE( PtrDiff_toU8((void const*)(0x12345678-1),      (void const*)0x12345678) == 0);
+    TEST_ASSERT_TRUE( U8PtrDiff_toU8((U8 const*)0x12345678,          (U8 const*)0x12345678) == 0);
+    TEST_ASSERT_TRUE( U8PtrDiff_toU8((U8 const*)(0x12345678+MAX_U8), (U8 const*)0x12345678) == MAX_U8);
+    TEST_ASSERT_TRUE( U8PtrDiff_toU8((U8 const*)(0x12345678+MAX_U8-1), (U8 const*)0x12345678 ) == MAX_U8-1);
+    TEST_ASSERT_TRUE( U8PtrDiff_toU8(NULL,                             (U8 const*)0x12345678) == 0);
+    TEST_ASSERT_TRUE( U*PtrDiff_toU8((U8 const*)(0x12345678-1),      (U8 const*)0x12345678) == 0);
 }
 
 /* ------------------------------ test_AminusBU16 -------------------------------------- */
