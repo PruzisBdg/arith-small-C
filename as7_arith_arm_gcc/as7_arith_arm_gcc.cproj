@@ -97,6 +97,7 @@
   <armgcc.compiler.symbols.DefSymbols>
     <ListValues>
       <Value>DEBUG</Value>
+      <Value>__TOOL_IS_GCC_ARM</Value>
     </ListValues>
   </armgcc.compiler.symbols.DefSymbols>
   <armgcc.compiler.directories.IncludePaths>
@@ -104,7 +105,7 @@
       <Value>%24(PackRepoDir)\arm\cmsis\5.0.1\CMSIS\Include\</Value>
       <Value>../../private</Value>
       <Value>../../public</Value>
-      <Value>../../GenericTypes</Value>
+      <Value>%24(SPJ_SWR_LOC)\libs_common\public</Value>
       <Value>%24(PackRepoDir)\Atmel\SAML22_DFP\1.2.77\include</Value>
     </ListValues>
   </armgcc.compiler.directories.IncludePaths>

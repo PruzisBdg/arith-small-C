@@ -288,7 +288,8 @@ PUBLIC S16 VecU8_Sum(U8 const *v, U8 cnt);
    then take the High Word.
 */
 #ifdef _TOOL_IS
-   #if _TOOL_IS == TOOL_CC430
+   #ifdef TOOL_CC430
+      #if _TOOL_IS == TOOL_CC430
 
 #include "msp430x24x.h"             // Basic port and peripheral defines for MSP430
 
@@ -323,9 +324,12 @@ static inline S16 AmulB_U16rs16(U16 a, U16 b) {
 static inline U16 RShiftU16(U16 n, U8 rs) {
    return AmulB_U16rs16(n, 1U << (16-rs)); }
 
+      #else
+static inline U16 RShiftU16(U16 n, U8 rs) { return n >> rs; }
+      #endif // _TOOL_IS == TOOL_CC430
    #else
 static inline U16 RShiftU16(U16 n, U8 rs) { return n >> rs; }
-   #endif // _TOOL_IS == TOOL_CC430
+   #endif //  #ifdef TOOL_CC430
 #else
    #warning "Define _TOOL_IS for CC430 for fast right-shift 16"
 #endif // #ifdef _TOOL_IS
