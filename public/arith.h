@@ -278,6 +278,7 @@ PUBLIC U8 BitLogU16(U16 n);
 PUBLIC U16 BitLogU32(U32 n);
 
 PUBLIC S16 VecU8_Sum(U8 const *v, U8 cnt);
+PUBLIC bool VecU8_Equal(U8 const *a, U8 const *b, U8 cnt);
 
 /* ----------------------------------- MSP430F2xx, for now -----------------------------------------
 
